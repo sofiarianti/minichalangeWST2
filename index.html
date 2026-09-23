@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Halaman Sederhana</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: grid;
+			place-items: center;
+			font-family: Arial, sans-serif;
+			background: #f2f6ff;
+			color: #1f2937;
+		}
+
+		main {
+			width: min(90%, 520px);
+			padding: 40px;
+			text-align: center;
+			background: white;
+			border-radius: 12px;
+			box-shadow: 0 8px 24px rgba(31, 41, 55, 0.12);
+		}
+
+		h1 {
+			margin-top: 0;
+			color: #2563eb;
+		}
+
+		p {
+			line-height: 1.6;
+		}
+
+		button {
+			padding: 10px 18px;
+			border: 0;
+			border-radius: 6px;
+			background: #2563eb;
+			color: white;
+			cursor: pointer;
+			font-size: 1rem;
+		}
+
+		button:hover {
+			background: #1d4ed8;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<h1>Selamat Datang</h1>
+		<p>Ini adalah halaman HTML sederhana untuk memulai proyek web kamu.</p>
+		<button type="button" onclick="tampilkanPesan()">Klik Saya</button>
+		<p id="pesan" aria-live="polite"></p>
+	</main>
+
+	<script>
+		function tampilkanPesan() {
+			document.getElementById('pesan').textContent = 'Terima kasih sudah mengklik tombol!';
+		}
+	</script>
+</body>
+</html>
