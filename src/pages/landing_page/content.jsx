@@ -405,16 +405,21 @@ function Content() {
 
 	// Handle Voucher Application
 	const applyVoucherCode = (codeToApply) => {
+		if (!codeToApply || !codeToApply.trim()) {
+			showToast('Silakan masukkan atau pilih kode voucher!')
+			return
+		}
+
 		const cleanCode = codeToApply.trim().toUpperCase()
-		const found = vouchers.find((v) => v.code === cleanCode)
+		const found = vouchers.find((v) => v.code.toUpperCase() === cleanCode)
 
 		if (!found) {
-			showToast('Kode voucher tidak ditemukan!')
+			showToast(`Kode voucher "${cleanCode}" tidak valid!`)
 			return
 		}
 
 		if (found.isUsed) {
-			showToast('Voucher ini sudah pernah digunakan!')
+			showToast(`Voucher "${found.code}" sudah pernah digunakan!`)
 			return
 		}
 
@@ -424,7 +429,7 @@ function Content() {
 		}
 
 		setAppliedVoucher(found)
-		showToast(`Voucher "${found.code}" berhasil dipasang! (Diskon ${formatRupiah(found.discount)})`)
+		showToast(`🎉 Voucher "${found.code}" berhasil dipasang! Potongan ${formatRupiah(found.discount)}`)
 		setInputVoucherCode('')
 	}
 
@@ -464,7 +469,6 @@ function Content() {
 	const handleScanQRCode = () => {
 		setPaymentStage('scanning')
 
-		// Simulate 1.6 seconds scanning laser delay
 		setTimeout(() => {
 			setPaymentStage('success')
 
@@ -1109,7 +1113,7 @@ function Content() {
 							<div className="input-voucher-row">
 								<input
 									type="text"
-									placeholder="Ketik kode voucher..."
+									placeholder="Ketik kode voucher (e.g. NEWUSER100K)..."
 									value={inputVoucherCode}
 									onChange={(e) => setInputVoucherCode(e.target.value)}
 								/>
@@ -1383,27 +1387,49 @@ function Content() {
 										</div>
 
 										{appliedVoucher ? (
-											<div className="applied-voucher-banner">
+											<div className="applied-voucher-banner animate-slide-in">
 												<div className="av-text">
-													<span className="av-code">{appliedVoucher.code}</span>
+													<span className="av-code">🎉 {appliedVoucher.code}</span>
 													<span className="av-disc">-{formatRupiah(voucherDiscountAmount)}</span>
 												</div>
-												<button onClick={removeAppliedVoucher} className="btn-remove-v">
-													<X size={14} />
+												<button onClick={removeAppliedVoucher} className="btn-remove-v" title="Lepas Voucher">
+													<X size={16} />
 												</button>
 											</div>
 										) : (
-											<div className="apply-v-input-group">
-												<input
-													type="text"
-													placeholder="Masukkan kode voucher..."
-													value={inputVoucherCode}
-													onChange={(e) => setInputVoucherCode(e.target.value)}
-												/>
-												<button onClick={() => applyVoucherCode(inputVoucherCode)}>
-													Pakai
-												</button>
-											</div>
+											<>
+												<div className="apply-v-input-group">
+													<input
+														type="text"
+														placeholder="Masukkan kode voucher (e.g. NEWUSER100K)..."
+														value={inputVoucherCode}
+														onChange={(e) => setInputVoucherCode(e.target.value)}
+													/>
+													<button onClick={() => applyVoucherCode(inputVoucherCode)}>
+														Pakai
+													</button>
+												</div>
+
+												{/* QUICK PICK AVAILABLE VOUCHERS CHIPS */}
+												{vouchers.filter((v) => !v.isUsed).length > 0 && (
+													<div className="quick-vouchers-chips">
+														<span className="chips-label">Pilih Voucher Rekomendasi:</span>
+														<div className="chips-list">
+															{vouchers
+																.filter((v) => !v.isUsed)
+																.map((v) => (
+																	<button
+																		key={v.code}
+																		onClick={() => applyVoucherCode(v.code)}
+																		className="v-chip-btn"
+																	>
+																		<Tag size={12} /> {v.code} (-{formatRupiah(v.discount)})
+																	</button>
+																))}
+														</div>
+													</div>
+												)}
+											</>
 										)}
 									</div>
 								</div>
@@ -1419,14 +1445,19 @@ function Content() {
 
 									{appliedVoucher && (
 										<div className="subtotal-breakdown">
-											<span>Subtotal: {formatRupiah(subtotalCartPrice)}</span>
-											<span className="text-discount">Voucher: -{formatRupiah(voucherDiscountAmount)}</span>
+											<span>Subtotal Awal: <span className="slashed-subtotal">{formatRupiah(subtotalCartPrice)}</span></span>
+											<span className="text-discount">Diskon Voucher: -{formatRupiah(voucherDiscountAmount)}</span>
 										</div>
 									)}
 
 									<div className="subtotal-row">
 										<span>Total Pembayaran:</span>
-										<span className="subtotal-price">{formatRupiah(finalCartPrice)}</span>
+										<div className="price-total-display">
+											{appliedVoucher && (
+												<span className="original-total-slashed">{formatRupiah(subtotalCartPrice)}</span>
+											)}
+											<span className="subtotal-price highlight-final">{formatRupiah(finalCartPrice)}</span>
+										</div>
 									</div>
 
 									<button onClick={initiatePayment} className="btn-checkout">

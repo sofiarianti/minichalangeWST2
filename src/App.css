@@ -2360,3 +2360,70 @@
   cursor: pointer;
 }
 
+/* QUICK VOUCHER CHIPS & PRICE STRIRETHROUGH DISCOUNTS */
+.quick-vouchers-chips {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chips-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.v-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #EEF2FF;
+  border: 1px solid #C7D2FE;
+  color: #4F46E5;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.v-chip-btn:hover {
+  background: #6366F1;
+  color: #FFFFFF;
+  border-color: #6366F1;
+}
+
+.slashed-subtotal {
+  text-decoration: line-through;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.price-total-display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.original-total-slashed {
+  font-size: 13px;
+  color: #94A3B8;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.subtotal-price.highlight-final {
+  color: #10B981;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+
