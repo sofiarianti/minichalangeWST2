@@ -272,6 +272,24 @@ function Content(container) {
 		}, 1000)
 	}
 
+	let clockInterval = null
+	const updateLiveClock = () => {
+		const clockEl = container.querySelector('#live-clock-display')
+		if (clockEl) {
+			const now = new Date()
+			const hours = String(now.getHours()).padStart(2, '0')
+			const minutes = String(now.getMinutes()).padStart(2, '0')
+			const seconds = String(now.getSeconds()).padStart(2, '0')
+			clockEl.textContent = `${hours}:${minutes}:${seconds} WIB`
+		}
+	}
+
+	const startLiveClock = () => {
+		updateLiveClock()
+		if (clockInterval) clearInterval(clockInterval)
+		clockInterval = setInterval(updateLiveClock, 1000)
+	}
+
 	const updateTimerDisplay = () => {
 		const h = Math.floor(secondsTotal / 3600)
 		const m = Math.floor((secondsTotal % 3600) / 60)
@@ -352,35 +370,44 @@ function Content(container) {
 				<div id="content-toast"></div>
 
 				<!-- QUICK ACCESS BAR -->
-				<div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-base-200/60 backdrop-blur rounded-2xl border border-base-300">
-					<div class="flex items-center gap-2 text-xs font-semibold text-base-content/80">
-						<span class="w-2.5 h-2.5 rounded-full bg-success animate-pulse"></span>
-						Data Tersimpan di Local Storage
+				<div class="flex flex-wrap items-center justify-between gap-4 px-5 py-3 bg-base-100/90 backdrop-blur-md rounded-2xl border border-base-200 shadow-xs">
+					<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20 shadow-2xs">
+						<svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke-width="2" stroke-linecap="round"/></svg>
+						<span id="live-clock-display" class="font-mono text-xs font-extrabold tracking-wider text-emerald-800 dark:text-emerald-300">00:00:00 WIB</span>
 					</div>
-					<div class="flex items-center gap-2 flex-wrap">
-						<button id="open-vouchers-btn" class="btn btn-sm btn-outline gap-1.5 rounded-xl">
-							🎫 Voucher Saya <span class="badge badge-sm badge-secondary">${vouchers.filter((v) => !v.isUsed).length}</span>
+
+					<div class="flex items-center gap-2.5 flex-wrap">
+						<button id="open-vouchers-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-amber-900 dark:text-amber-200 bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/5 hover:from-amber-500/25 border border-amber-500/30 shadow-2xs transition-all duration-200 hover:-translate-y-0.5">
+							<svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
+							<span>Voucher Saya</span>
+							<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs">${vouchers.filter((v) => !v.isUsed).length}</span>
 						</button>
-						<button id="open-history-btn" class="btn btn-sm btn-outline gap-1.5 rounded-xl">
-							📜 Riwayat Pesanan <span class="badge badge-sm">${orderHistory.length}</span>
+
+						<button id="open-history-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-indigo-900 dark:text-indigo-200 bg-gradient-to-r from-blue-500/15 via-indigo-500/10 to-blue-500/5 hover:from-blue-500/25 border border-indigo-500/30 shadow-2xs transition-all duration-200 hover:-translate-y-0.5">
+							<svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+							<span>Riwayat Pesanan</span>
+							<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-600 text-white shadow-xs">${orderHistory.length}</span>
 						</button>
-						<button id="open-cart-floating-btn" class="btn btn-sm btn-primary text-white gap-1.5 rounded-xl">
-							🛒 Keranjang <span class="badge badge-sm badge-warning">${cartCount}</span>
+
+						<button id="open-cart-floating-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold text-white bg-gradient-to-r from-[#A56F63] via-[#b87c70] to-[#8e5c52] shadow-md shadow-[#A56F63]/30 hover:shadow-lg hover:shadow-[#A56F63]/40 border border-white/20 transition-all duration-200 hover:-translate-y-0.5">
+							<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+							<span>Keranjang</span>
+							<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-900 shadow-xs">${cartCount}</span>
 						</button>
 					</div>
 				</div>
 
 				<!-- HERO BANNER -->
-				<section class="hero bg-gradient-to-br from-amber-500/5 via-base-100 to-primary/5 rounded-3xl p-8 lg:p-14 border border-base-200/80 shadow-sm relative overflow-hidden">
+				<section class="hero bg-gradient-to-br from-[#A56F63]/5 via-base-100 to-[#464858]/5 rounded-3xl p-8 lg:p-14 border border-base-200/80 shadow-sm relative overflow-hidden">
 					<div class="hero-content flex-col lg:flex-row gap-12 p-0 max-w-none items-center">
 						<div class="space-y-6 lg:w-1/2 text-left">
-							<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
-								<span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+							<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#0F3040]/20 text-[#0F3040] border border-[#0F3040]/20">
+								<span class="inline-block w-2 h-2 rounded-full bg-[#0F3040] animate-ping"></span>
 								✨ Flash Deal Diskon s.d 50%
 							</div>
 							
-							<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-base-content">
-								Temukan Gaya & <span class="bg-gradient-to-r from-amber-600 via-rose-600 to-purple-600 bg-clip-text text-transparent">Teknologi Impianmu</span>
+							<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-[#0F3040]">
+								Temukan Gaya & <span class="text-[#8B5E3C]">Teknologi Impianmu</span>
 							</h1>
 							
 							<p class="text-base-content/70 text-base sm:text-lg leading-relaxed max-w-xl">
@@ -388,25 +415,25 @@ function Content(container) {
 							</p>
 
 							<div class="flex flex-wrap items-center gap-4 pt-2">
-								<a href="#produk-list" class="btn btn-primary text-white px-8 h-12 min-h-12 rounded-2xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+								<a href="#produk-list" class="btn bg-[#0B1849] hover:bg-[#8e5c52] text-white px-8 h-12 min-h-12 border-none rounded-2xl font-bold shadow-lg shadow-[#A56F63]/25 hover:-translate-y-0.5 transition-all">
 									🛍️ Belanja Sekarang
 								</a>
-								<a href="#flash-sale" class="btn btn-outline h-12 min-h-12 px-6 rounded-2xl font-semibold hover:-translate-y-0.5 transition-all">
+								<a href="#flash-sale" class="btn btn-outline text-[#464858] hover:bg-[#A56F63]/10 hover:text-[#A56F63] hover:border-[#A56F63] h-12 min-h-12 px-6 rounded-2xl font-semibold hover:-translate-y-0.5 transition-all">
 									⚡ Lihat Flash Sale
 								</a>
 							</div>
 
 							<div class="grid grid-cols-3 gap-6 pt-6 border-t border-base-200/80">
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-primary">15k+</div>
+									<div class="text-2xl lg:text-3xl font-black text-[#0F3040]">15k+</div>
 									<div class="text-xs font-medium text-base-content/60 mt-0.5">Pelanggan Puas</div>
 								</div>
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-amber-500">4.9 ★</div>
+									<div class="text-2xl lg:text-3xl font-black text-[#D99B21]">4.9 ★</div>
 									<div class="text-xs font-medium text-base-content/60 mt-0.5">Rating Toko</div>
 								</div>
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-emerald-600">100%</div>
+									<div class="text-2xl lg:text-3xl font-black text-[#0F3040]">100%</div>
 									<div class="text-xs font-medium text-base-content/60 mt-0.5">Garansi Original</div>
 								</div>
 							</div>
@@ -414,7 +441,7 @@ function Content(container) {
 
 						<div class="lg:w-1/2 relative flex justify-center w-full">
 							<div class="relative w-full max-w-md group">
-								<div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-amber-500/20 to-primary/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
+								<div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#A56F63]/20 to-[#464858]/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
 								<div class="relative rounded-3xl overflow-hidden shadow-2xl border border-base-200 bg-base-100">
 									<img
 										src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
@@ -423,9 +450,9 @@ function Content(container) {
 									/>
 									<div class="absolute bottom-4 left-4 right-4 sm:right-auto bg-base-100/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-base-200/80">
 										<div class="text-xs font-medium text-base-content/60 uppercase tracking-wider">Headphones Pro ANC</div>
-										<div class="text-xl font-black text-primary mt-0.5">Rp 1.499.000</div>
+										<div class="text-xl font-black text-[#A56F63] mt-0.5">Rp 1.499.000</div>
 									</div>
-									<div class="absolute top-4 right-4 bg-base-100/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-base-200/80 text-xs font-bold text-amber-500 flex items-center gap-1.5">
+									<div class="absolute top-4 right-4 bg-base-100/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-base-200/80 text-xs font-bold text-[#A56F63] flex items-center gap-1.5">
 										⭐ <span>4.9 (248 Ulasan)</span>
 									</div>
 								</div>
@@ -436,32 +463,47 @@ function Content(container) {
 
 				<!-- VALUE PROPOSITION BAR -->
 				<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
-						<div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl font-bold">🚚</div>
+					<!-- Card 1: Gratis Ongkir -->
+					<div class="card p-5 flex flex-row items-center gap-4 rounded-2xl bg-gradient-to-br from-blue-500/15 via-cyan-500/10 to-base-100 border border-blue-500/30 hover:border-blue-500/60 shadow-xs hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1">
+						<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/30 flex items-center justify-center flex-shrink-0">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25v11.25M14.25 7.5H4.875c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h9.375"/></svg>
+						</div>
 						<div>
-							<h4 class="font-bold text-sm">Gratis Ongkir</h4>
-							<p class="text-xs text-base-content/60">Min. belanja Rp 150rb</p>
+							<h4 class="font-extrabold text-sm text-blue-950 dark:text-blue-200">Gratis Ongkir</h4>
+							<p class="text-xs font-semibold text-blue-700/80 dark:text-blue-300/80">Min. belanja Rp 150rb</p>
 						</div>
 					</div>
-					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
-						<div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl font-bold">🛡️</div>
+
+					<!-- Card 2: Garansi Original -->
+					<div class="card p-5 flex flex-row items-center gap-4 rounded-2xl bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-base-100 border border-emerald-500/30 hover:border-emerald-500/60 shadow-xs hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
+						<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/30 flex items-center justify-center flex-shrink-0">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+						</div>
 						<div>
-							<h4 class="font-bold text-sm">Garansi 100% Original</h4>
-							<p class="text-xs text-base-content/60">Jaminan produk resmi</p>
+							<h4 class="font-extrabold text-sm text-emerald-950 dark:text-emerald-200">Garansi 100% Original</h4>
+							<p class="text-xs font-semibold text-emerald-700/80 dark:text-emerald-300/80">Jaminan produk resmi</p>
 						</div>
 					</div>
-					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
-						<div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl font-bold">🔄</div>
+
+					<!-- Card 3: 30 Hari Retur -->
+					<div class="card p-5 flex flex-row items-center gap-4 rounded-2xl bg-gradient-to-br from-purple-500/15 via-pink-500/10 to-base-100 border border-purple-500/30 hover:border-purple-500/60 shadow-xs hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
+						<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/30 flex items-center justify-center flex-shrink-0">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+						</div>
 						<div>
-							<h4 class="font-bold text-sm">30 Hari Retur</h4>
-							<p class="text-xs text-base-content/60">Tukar barang tanpa ribet</p>
+							<h4 class="font-extrabold text-sm text-purple-950 dark:text-purple-200">30 Hari Retur</h4>
+							<p class="text-xs font-semibold text-purple-700/80 dark:text-purple-300/80">Tukar barang tanpa ribet</p>
 						</div>
 					</div>
-					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
-						<div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl font-bold">⚡</div>
+
+					<!-- Card 4: Pengiriman Cepat -->
+					<div class="card p-5 flex flex-row items-center gap-4 rounded-2xl bg-gradient-to-br from-amber-500/15 via-orange-500/10 to-base-100 border border-amber-500/30 hover:border-amber-500/60 shadow-xs hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1">
+						<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30 flex items-center justify-center flex-shrink-0">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+						</div>
 						<div>
-							<h4 class="font-bold text-sm">Pengiriman Cepat</h4>
-							<p class="text-xs text-base-content/60">Dikirim dalam 24 jam</p>
+							<h4 class="font-extrabold text-sm text-amber-950 dark:text-amber-200">Pengiriman Cepat</h4>
+							<p class="text-xs font-semibold text-amber-700/80 dark:text-amber-300/80">Dikirim dalam 24 jam</p>
 						</div>
 					</div>
 				</section>
@@ -511,7 +553,7 @@ function Content(container) {
 				<section id="produk-list" class="space-y-6 pt-4">
 					<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-base-200 pb-4">
 						<div>
-							<h2 class="text-3xl font-extrabold tracking-tight">Katalog Produk</h2>
+							<h2 class="text-3xl font-extrabold tracking-tight text-[#464858]">Katalog Produk</h2>
 							<p class="text-sm text-base-content/60">Pilih dari koleksi produk terbaik kami</p>
 						</div>
 
@@ -540,7 +582,7 @@ function Content(container) {
 						${CATEGORIES.map(
 							(cat) => `
 							<button
-								class="btn btn-sm rounded-xl whitespace-nowrap category-btn ${activeCategory === cat.id ? 'btn-primary text-white' : 'btn-ghost border border-base-300'}"
+								class="btn btn-sm rounded-xl whitespace-nowrap category-btn ${activeCategory === cat.id ? 'bg-[#A56F63] text-white border-none' : 'btn-ghost border border-base-300 hover:text-[#A56F63]'}"
 								data-cat="${cat.id}"
 							>
 								${cat.icon} ${cat.label}
@@ -575,17 +617,17 @@ function Content(container) {
 											</button>
 										</figure>
 										<div class="card-body p-5 space-y-2">
-											<span class="text-xs font-bold text-primary uppercase tracking-wider">${p.category}</span>
-											<h3 class="font-bold text-base line-clamp-1">${p.name}</h3>
+											<span class="text-xs font-bold text-[#A56F63] uppercase tracking-wider">${p.category}</span>
+											<h3 class="font-bold text-base text-[#464858] line-clamp-1">${p.name}</h3>
 											<div class="text-xs text-amber-500 font-semibold flex items-center gap-1">
 												⭐ ${p.rating} <span class="text-base-content/40 font-normal">(${p.reviewsCount} Ulasan)</span>
 											</div>
 											<div class="flex items-center justify-between pt-2 border-t border-base-200">
 												<div>
-													<div class="text-base font-extrabold text-primary">${formatRupiah(p.price)}</div>
+													<div class="text-base font-extrabold text-[#A56F63]">${formatRupiah(p.price)}</div>
 													${p.originalPrice ? `<div class="text-xs text-base-content/40 line-through">${formatRupiah(p.originalPrice)}</div>` : ''}
 												</div>
-												<button class="btn btn-primary btn-sm text-white rounded-xl shadow-md" data-cart-id="${p.id}">
+												<button class="btn bg-[#A56F63] hover:bg-[#8e5c52] border-none btn-sm text-white rounded-xl shadow-md" data-cart-id="${p.id}">
 													+ Keranjang
 												</button>
 											</div>
@@ -1153,6 +1195,40 @@ function Content(container) {
 			})
 		}
 
+		const triggerCelebrationConfetti = () => {
+			try {
+				// Central Burst
+				confetti({
+					particleCount: 120,
+					spread: 100,
+					origin: { y: 0.5 },
+					colors: ['#A56F63', '#464858', '#F59E0B', '#10B981', '#EC4899', '#3B82F6']
+				})
+
+				// Left Cannon
+				setTimeout(() => {
+					confetti({
+						particleCount: 70,
+						angle: 60,
+						spread: 60,
+						origin: { x: 0, y: 0.65 }
+					})
+				}, 250)
+
+				// Right Cannon
+				setTimeout(() => {
+					confetti({
+						particleCount: 70,
+						angle: 120,
+						spread: 60,
+						origin: { x: 1, y: 0.65 }
+					})
+				}, 450)
+			} catch (e) {
+				console.log('Confetti error:', e)
+			}
+		}
+
 		const simulateScanBtn = container.querySelector('#simulate-scan-btn')
 		if (simulateScanBtn) {
 			simulateScanBtn.addEventListener('click', () => {
@@ -1170,18 +1246,13 @@ function Content(container) {
 						}
 						cart = []
 						saveAll()
-
-						try {
-							confetti({
-								particleCount: 100,
-								spread: 70,
-								origin: { y: 0.6 }
-							})
-						} catch (e) {
-							console.log('Confetti error:', e)
-						}
 					}
 					render()
+
+					// Trigger multi-stage celebration confetti AFTER success modal is rendered!
+					setTimeout(() => {
+						triggerCelebrationConfetti()
+					}, 100)
 				}, 1600)
 			})
 		}
@@ -1276,6 +1347,7 @@ function Content(container) {
 
 	render()
 	startTimer()
+	startLiveClock()
 }
 
 export default Content

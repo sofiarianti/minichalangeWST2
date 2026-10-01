@@ -78,19 +78,19 @@ function Header(container) {
 
   const render = () => {
     container.innerHTML = `
-      <header class="navbar bg-base-100 border-b border-base-200 sticky top-0 z-40 px-4 lg:px-12 shadow-sm transition-colors duration-200">
+      <header class="navbar bg-base-100 border-b border-base-200 sticky top-0 z-40 px-4 lg:px-12 py-1 min-h-14 shadow-sm transition-colors duration-200">
         <div class="navbar-start gap-4">
-          <a class="text-2xl font-serif font-bold tracking-widest text-primary flex items-center gap-1" href="/" aria-label="Lumiere home">
-            LUMI<span class="text-accent italic">È</span>RE
+          <a class="text-2xl font-serif font-bold tracking-widest text-[#0F3040] flex items-center gap-1" href="/" aria-label="Lumiere home">
+            LUMI<span class="text-[#8B5E3C] italic">È</span>RE
           </a>
         </div>
 
         <div class="navbar-center hidden md:flex">
           <ul class="menu menu-horizontal px-1 gap-4 font-semibold text-sm tracking-wide uppercase">
-            <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
-            <li><a href="#produk-list" class="hover:text-primary transition-colors">Shop</a></li>
-            <li><a href="#flash-sale" class="hover:text-primary transition-colors">New Arrival</a></li>
-            <li><a href="#about" class="hover:text-primary transition-colors">About</a></li>
+            <li><a href="/" class="hover:text-[#A56F63] transition-colors">Home</a></li>
+            <li><a href="#produk-list" class="hover:text-[#A56F63] transition-colors">Shop</a></li>
+            <li><a href="#flash-sale" class="hover:text-[#A56F63] transition-colors">New Arrival</a></li>
+            <li><a href="#about" class="hover:text-[#A56F63] transition-colors">About</a></li>
           </ul>
         </div>
 
