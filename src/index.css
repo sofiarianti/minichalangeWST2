@@ -52,6 +52,7 @@
 
 body {
   margin: 0;
+  top: 0 !important;
 }
 
 #root {
@@ -107,4 +108,51 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* HIDE GOOGLE TRANSLATE "POWERED BY GOOGLE" BRANDING & BANNER */
+.goog-te-gadget {
+  font-size: 0 !important;
+  color: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.goog-te-gadget span,
+.goog-te-gadget img,
+.goog-logo-link,
+.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+.goog-te-combo {
+  padding: 5px 12px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(70, 72, 88, 0.25) !important;
+  background-color: transparent !important;
+  color: #464858 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.goog-te-combo:hover {
+  border-color: #A56F63 !important;
+  color: #A56F63 !important;
+}
+
+:root[data-theme="dark"] .goog-te-combo {
+  color: #f5f0e9 !important;
+  border-color: rgba(245, 240, 233, 0.25) !important;
+}
+
+:root[data-theme="dark"] .goog-te-combo:hover {
+  border-color: #A56F63 !important;
+  color: #A56F63 !important;
 }
