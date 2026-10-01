@@ -11,7 +11,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.9,
 		reviewsCount: 248,
 		badge: 'HOT',
-		badgeType: 'danger',
+		badgeType: 'badge-error text-white',
 		image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
 		description: 'Headphone nirkabel premium dengan teknologi peredam bising aktif (ANC), daya tahan baterai hingga 30 jam, dan kualitas suara Hi-Res Audio.',
 		stock: 15,
@@ -26,7 +26,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.8,
 		reviewsCount: 192,
 		badge: 'DISKON 17%',
-		badgeType: 'warning',
+		badgeType: 'badge-warning text-gray-900',
 		image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
 		description: 'Jam tangan pintar layar AMOLED Always-On dengan pelacak detak jantung, GPS presisi tinggi, dan ketahanan air hingga 50 meter.',
 		stock: 8,
@@ -41,7 +41,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.9,
 		reviewsCount: 310,
 		badge: 'TERLARIS',
-		badgeType: 'success',
+		badgeType: 'badge-success text-white',
 		image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80',
 		description: 'Keyboard mekanikal dengan switch kustom yang empuk, koneksi tri-mode (Bluetooth, 2.4Ghz, Type-C), dan RGB backlighting yang elegan.',
 		stock: 22,
@@ -56,7 +56,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.7,
 		reviewsCount: 145,
 		badge: 'NEW',
-		badgeType: 'info',
+		badgeType: 'badge-info text-white',
 		image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
 		description: 'Jaket outdoor tahan air dan angin dengan bahan taslan tebal namun breathable. Dilengkapi dengan kantong multifungsi dan kupluk lepas-pasang.',
 		stock: 18,
@@ -71,7 +71,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.8,
 		reviewsCount: 215,
 		badge: 'SALE',
-		badgeType: 'danger',
+		badgeType: 'badge-error text-white',
 		image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
 		description: 'Sepatu lari ringan dengan busa Ultra-Cushion untuk kenyamanan maksimal saat berolahraga maupun aktivitas sehari-hari.',
 		stock: 12,
@@ -86,7 +86,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.9,
 		reviewsCount: 178,
 		badge: 'BESTSELLER',
-		badgeType: 'success',
+		badgeType: 'badge-success text-white',
 		image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
 		description: 'Tas ransel berdesain modern dengan slot khusus laptop 15.6 inch, port charger USB eksternal, dan kompartemen terorganisir.',
 		stock: 30,
@@ -101,7 +101,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.6,
 		reviewsCount: 94,
 		badge: 'POPULER',
-		badgeType: 'warning',
+		badgeType: 'badge-warning text-gray-900',
 		image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=800&q=80',
 		description: 'Kacamata dengan lensa Blue-Light Blocker untuk melindungi mata dari paparan layar komputer dan smartphone.',
 		stock: 40,
@@ -116,7 +116,7 @@ const INITIAL_PRODUCTS = [
 		rating: 4.7,
 		reviewsCount: 112,
 		badge: 'NEW',
-		badgeType: 'info',
+		badgeType: 'badge-info text-white',
 		image: 'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=800&q=80',
 		description: 'Speaker pintar dengan kontrol suara pintar, kualitas bass dalam, dan lampu LED ambient yang dapat berorientasi musik.',
 		stock: 14,
@@ -228,14 +228,12 @@ const formatRupiah = (number) => {
 }
 
 function Content(container) {
-	// Persistent LocalStorage State
 	let cart = getStorageItem('shop_cart', [])
 	let wishlist = getStorageItem('shop_wishlist', [])
 	let vouchers = getStorageItem('shop_vouchers', DEFAULT_VOUCHERS)
 	let appliedVoucher = getStorageItem('shop_applied_voucher', null)
 	let orderHistory = getStorageItem('shop_orders', [])
 
-	// Interactive UI State
 	let activeCategory = 'semua'
 	let searchQuery = ''
 	let sortBy = 'populer'
@@ -248,14 +246,11 @@ function Content(container) {
 	let inputVoucherCode = ''
 	let toastMessage = null
 	let toastTimeout = null
-	let emailSubscription = ''
 
-	// QR Code Payment Modal State
 	let isPaymentModalOpen = false
-	let paymentStage = 'qr' // 'qr' | 'scanning' | 'success'
+	let paymentStage = 'qr'
 	let pendingOrder = null
 
-	// Timer state
 	let secondsTotal = 5 * 3600 + 42 * 60 + 18
 	let timerInterval = null
 
@@ -297,9 +292,11 @@ function Content(container) {
 		const toastEl = container.querySelector('#content-toast')
 		if (toastEl) {
 			toastEl.innerHTML = `
-				<div class="shop-toast animate-slide-in">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-					<span>${message}</span>
+				<div class="toast toast-bottom toast-end z-50">
+					<div class="alert alert-success text-white shadow-xl flex items-center gap-2 text-sm font-medium">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+						<span>${message}</span>
+					</div>
 				</div>
 			`
 		}
@@ -310,7 +307,6 @@ function Content(container) {
 		}, 3000)
 	}
 
-	// Calculations
 	const getSubtotal = () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
 	const getDiscount = () => {
 		const subtotal = getSubtotal()
@@ -320,14 +316,11 @@ function Content(container) {
 	const getFinalPrice = () => Math.max(0, getSubtotal() - getDiscount())
 	const getTotalCartCount = () => cart.reduce((acc, item) => acc + item.quantity, 0)
 
-	// Filter & Sort Logic
 	const getFilteredProducts = () => {
 		let result = [...INITIAL_PRODUCTS]
-
 		if (activeCategory !== 'semua') {
 			result = result.filter((p) => p.category === activeCategory)
 		}
-
 		if (searchQuery.trim() !== '') {
 			const query = searchQuery.toLowerCase()
 			result = result.filter(
@@ -337,7 +330,6 @@ function Content(container) {
 					p.description.toLowerCase().includes(query)
 			)
 		}
-
 		if (sortBy === 'harga-rendah') {
 			result.sort((a, b) => a.price - b.price)
 		} else if (sortBy === 'harga-tinggi') {
@@ -345,7 +337,6 @@ function Content(container) {
 		} else if (sortBy === 'rating') {
 			result.sort((a, b) => b.rating - a.rating)
 		}
-
 		return result
 	}
 
@@ -357,77 +348,86 @@ function Content(container) {
 		const cartCount = getTotalCartCount()
 
 		container.innerHTML = `
-			<main class="shop-content">
-				<!-- TOAST -->
+			<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-8 space-y-6">
 				<div id="content-toast"></div>
 
-				<!-- TOP QUICK BAR -->
-				<div class="ls-quick-bar">
-					<div class="ls-info-tag">
-						<span class="dot-active"></span> Data Tersimpan di <strong>Local Storage</strong>
+				<!-- QUICK ACCESS BAR -->
+				<div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-base-200/60 backdrop-blur rounded-2xl border border-base-300">
+					<div class="flex items-center gap-2 text-xs font-semibold text-base-content/80">
+						<span class="w-2.5 h-2.5 rounded-full bg-success animate-pulse"></span>
+						Data Tersimpan di Local Storage
 					</div>
-					<div class="ls-actions">
-						<button id="open-vouchers-btn" class="btn-ls-action">
-							🎫 Voucher Saya (${vouchers.filter((v) => !v.isUsed).length})
+					<div class="flex items-center gap-2 flex-wrap">
+						<button id="open-vouchers-btn" class="btn btn-sm btn-outline gap-1.5 rounded-xl">
+							🎫 Voucher Saya <span class="badge badge-sm badge-secondary">${vouchers.filter((v) => !v.isUsed).length}</span>
 						</button>
-						<button id="open-history-btn" class="btn-ls-action highlight">
-							📜 Riwayat Pesanan (${orderHistory.length})
+						<button id="open-history-btn" class="btn btn-sm btn-outline gap-1.5 rounded-xl">
+							📜 Riwayat Pesanan <span class="badge badge-sm">${orderHistory.length}</span>
 						</button>
-						<button id="open-cart-floating-btn" class="btn-ls-action cart-btn-badge">
-							🛒 Keranjang (${cartCount})
+						<button id="open-cart-floating-btn" class="btn btn-sm btn-primary text-white gap-1.5 rounded-xl">
+							🛒 Keranjang <span class="badge badge-sm badge-warning">${cartCount}</span>
 						</button>
 					</div>
 				</div>
 
 				<!-- HERO BANNER -->
-				<section class="shop-hero">
-					<div class="hero-grid">
-						<div class="hero-text-content">
-							<span class="hero-badge">✨ Flash Deal Diskon s.d 50%</span>
-							<h1 class="hero-title">
-								Temukan Gaya & <span class="highlight-text">Teknologi Impianmu</span>
+				<section class="hero bg-gradient-to-br from-amber-500/5 via-base-100 to-primary/5 rounded-3xl p-8 lg:p-14 border border-base-200/80 shadow-sm relative overflow-hidden">
+					<div class="hero-content flex-col lg:flex-row gap-12 p-0 max-w-none items-center">
+						<div class="space-y-6 lg:w-1/2 text-left">
+							<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
+								<span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+								✨ Flash Deal Diskon s.d 50%
+							</div>
+							
+							<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-base-content">
+								Temukan Gaya & <span class="bg-gradient-to-r from-amber-600 via-rose-600 to-purple-600 bg-clip-text text-transparent">Teknologi Impianmu</span>
 							</h1>
-							<p class="hero-description">
+							
+							<p class="text-base-content/70 text-base sm:text-lg leading-relaxed max-w-xl">
 								Koleksi gadget terkini, fashion branded, dan aksesoris eksklusif dengan garansi resmi dan pengiriman super cepat ke seluruh Indonesia.
 							</p>
 
-							<div class="hero-cta-group">
-								<a href="#produk-list" class="btn-primary-lg">🛍️ Belanja Sekarang</a>
-								<a href="#flash-sale" class="btn-secondary-lg">⚡ Lihat Flash Sale</a>
+							<div class="flex flex-wrap items-center gap-4 pt-2">
+								<a href="#produk-list" class="btn btn-primary text-white px-8 h-12 min-h-12 rounded-2xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+									🛍️ Belanja Sekarang
+								</a>
+								<a href="#flash-sale" class="btn btn-outline h-12 min-h-12 px-6 rounded-2xl font-semibold hover:-translate-y-0.5 transition-all">
+									⚡ Lihat Flash Sale
+								</a>
 							</div>
 
-							<div class="hero-stats">
-								<div class="stat-item">
-									<span class="stat-num">15k+</span>
-									<span class="stat-label">Pelanggan Puas</span>
+							<div class="grid grid-cols-3 gap-6 pt-6 border-t border-base-200/80">
+								<div>
+									<div class="text-2xl lg:text-3xl font-black text-primary">15k+</div>
+									<div class="text-xs font-medium text-base-content/60 mt-0.5">Pelanggan Puas</div>
 								</div>
-								<div class="stat-divider"></div>
-								<div class="stat-item">
-									<span class="stat-num">4.9 / 5.0</span>
-									<span class="stat-label">Rating Toko</span>
+								<div>
+									<div class="text-2xl lg:text-3xl font-black text-amber-500">4.9 ★</div>
+									<div class="text-xs font-medium text-base-content/60 mt-0.5">Rating Toko</div>
 								</div>
-								<div class="stat-divider"></div>
-								<div class="stat-item">
-									<span class="stat-num">100%</span>
-									<span class="stat-label">Original Guaranteed</span>
+								<div>
+									<div class="text-2xl lg:text-3xl font-black text-emerald-600">100%</div>
+									<div class="text-xs font-medium text-base-content/60 mt-0.5">Garansi Original</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="hero-visual">
-							<div class="hero-card-glow"></div>
-							<div class="hero-image-wrapper">
-								<img
-									src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
-									alt="Hero Featured Product"
-									className="hero-main-img"
-								/>
-								<div class="floating-tag tag-price">
-									<span class="tag-title">Headphones Pro</span>
-									<span class="tag-val">Rp 1.499.000</span>
-								</div>
-								<div class="floating-tag tag-rating">
-									★ <span>4.9 (248 Ulasan)</span>
+						<div class="lg:w-1/2 relative flex justify-center w-full">
+							<div class="relative w-full max-w-md group">
+								<div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-amber-500/20 to-primary/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
+								<div class="relative rounded-3xl overflow-hidden shadow-2xl border border-base-200 bg-base-100">
+									<img
+										src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
+										alt="Headphones Pro"
+										class="w-full h-80 lg:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
+									/>
+									<div class="absolute bottom-4 left-4 right-4 sm:right-auto bg-base-100/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-base-200/80">
+										<div class="text-xs font-medium text-base-content/60 uppercase tracking-wider">Headphones Pro ANC</div>
+										<div class="text-xl font-black text-primary mt-0.5">Rp 1.499.000</div>
+									</div>
+									<div class="absolute top-4 right-4 bg-base-100/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-base-200/80 text-xs font-bold text-amber-500 flex items-center gap-1.5">
+										⭐ <span>4.9 (248 Ulasan)</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -435,68 +435,71 @@ function Content(container) {
 				</section>
 
 				<!-- VALUE PROPOSITION BAR -->
-				<section class="value-props">
-					<div class="prop-card">
-						<div class="prop-icon-box blue">🚚</div>
+				<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+						<div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl font-bold">🚚</div>
 						<div>
-							<h4>Gratis Ongkir</h4>
-							<p>Min. belanja Rp 150rb</p>
+							<h4 class="font-bold text-sm">Gratis Ongkir</h4>
+							<p class="text-xs text-base-content/60">Min. belanja Rp 150rb</p>
 						</div>
 					</div>
-					<div class="prop-card">
-						<div class="prop-icon-box green">🛡️</div>
+					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+						<div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl font-bold">🛡️</div>
 						<div>
-							<h4>Garansi 100% Original</h4>
-							<p>Jaminan produk resmi</p>
+							<h4 class="font-bold text-sm">Garansi 100% Original</h4>
+							<p class="text-xs text-base-content/60">Jaminan produk resmi</p>
 						</div>
 					</div>
-					<div class="prop-card">
-						<div class="prop-icon-box purple">🔄</div>
+					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+						<div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl font-bold">🔄</div>
 						<div>
-							<h4>30 Hari Retur</h4>
-							<p>Tukar barang tanpa ribet</p>
+							<h4 class="font-bold text-sm">30 Hari Retur</h4>
+							<p class="text-xs text-base-content/60">Tukar barang tanpa ribet</p>
 						</div>
 					</div>
-					<div class="prop-card">
-						<div class="prop-icon-box orange">⚡</div>
+					<div class="card bg-base-100 border border-base-200 p-6 flex flex-row items-center gap-4 shadow-sm hover:shadow-md transition-shadow rounded-2xl">
+						<div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl font-bold">⚡</div>
 						<div>
-							<h4>Pengiriman Cepat</h4>
-							<p>Dikirim dalam 24 jam</p>
+							<h4 class="font-bold text-sm">Pengiriman Cepat</h4>
+							<p class="text-xs text-base-content/60">Dikirim dalam 24 jam</p>
 						</div>
 					</div>
 				</section>
 
 				<!-- FLASH SALE SECTION -->
-				<section id="flash-sale" class="flash-sale-section">
-					<div class="flash-header">
-						<div class="flash-title-wrap">
-							<span class="flash-icon-animated">⚡</span>
-							<h2>Flash Sale Hari Ini</h2>
-							<div class="countdown-timer">
-								<span class="time-box" id="timer-h">05</span> :
-								<span class="time-box" id="timer-m">42</span> :
-								<span class="time-box" id="timer-s">18</span>
-							</div>
+				<section id="flash-sale" class="space-y-6">
+					<div class="flex flex-wrap items-center justify-between gap-4 border-b border-base-200 pb-4">
+						<div class="flex items-center gap-3">
+							<span class="text-3xl animate-bounce">⚡</span>
+							<h2 class="text-2xl font-bold">Flash Sale Hari Ini</h2>
+						</div>
+						<div class="flex items-center gap-2 bg-error/10 text-error px-4 py-2 rounded-xl font-mono text-sm font-bold">
+							<span>Berakhir dalam:</span>
+							<span id="timer-h" class="bg-error text-white px-2 py-0.5 rounded-lg">05</span>:
+							<span id="timer-m" class="bg-error text-white px-2 py-0.5 rounded-lg">42</span>:
+							<span id="timer-s" class="bg-error text-white px-2 py-0.5 rounded-lg">18</span>
 						</div>
 					</div>
 
-					<div class="flash-grid">
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 						${FLASH_SALE_ITEMS.map(
 							(item) => `
-							<div class="flash-card">
-								<div class="flash-badge">-${item.discount}%</div>
-								<img src="${item.image}" alt="${item.name}" class="flash-img" />
-								<div class="flash-body">
-									<h3>${item.name}</h3>
-									<div class="price-wrap">
-										<span class="flash-price">${formatRupiah(item.price)}</span>
-										<span class="flash-orig-price">${formatRupiah(item.originalPrice)}</span>
+							<div class="card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all rounded-2xl overflow-hidden group">
+								<figure class="relative h-48 overflow-hidden bg-base-200">
+									<span class="absolute top-3 left-3 badge badge-error text-white font-bold text-xs shadow-md">-${item.discount}%</span>
+									<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+								</figure>
+								<div class="card-body p-5 space-y-3">
+									<h3 class="font-bold text-base line-clamp-1">${item.name}</h3>
+									<div class="flex items-baseline gap-2">
+										<span class="text-lg font-bold text-primary">${formatRupiah(item.price)}</span>
+										<span class="text-xs text-base-content/50 line-through">${formatRupiah(item.originalPrice)}</span>
 									</div>
-									<div class="progress-wrap">
-										<div class="progress-bar" style="width: ${(item.sold / item.total) * 100}%"></div>
+									<div class="space-y-1">
+										<progress class="progress progress-error w-full" value="${item.sold}" max="${item.total}"></progress>
+										<div class="text-xs text-base-content/60 font-medium">Terjual ${item.sold} dari ${item.total}</div>
 									</div>
-									<div class="sold-text">Terjual ${item.sold}/${item.total}</div>
-									<button class="btn-flash-buy" data-id="${item.id}">Beli Sekarang</button>
+									<button class="btn btn-error text-white btn-block rounded-xl font-bold btn-flash-buy" data-id="${item.id}">Beli Sekarang</button>
 								</div>
 							</div>
 						`
@@ -504,24 +507,26 @@ function Content(container) {
 					</div>
 				</section>
 
-				<!-- PRODUCTS SECTION -->
-				<section id="produk-list" class="products-section">
-					<div class="products-header">
-						<h2>Katalog Produk</h2>
-						<div class="filter-controls">
-							<!-- Search Input -->
-							<div class="search-box">
-								🔍
+				<!-- CATALOG SECTION -->
+				<section id="produk-list" class="space-y-6 pt-4">
+					<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-base-200 pb-4">
+						<div>
+							<h2 class="text-3xl font-extrabold tracking-tight">Katalog Produk</h2>
+							<p class="text-sm text-base-content/60">Pilih dari koleksi produk terbaik kami</p>
+						</div>
+
+						<div class="flex items-center gap-3 flex-wrap">
+							<div class="form-control">
 								<input
 									type="text"
 									id="search-input"
-									placeholder="Cari produk..."
+									class="input input-bordered input-sm rounded-xl w-full sm:w-64"
+									placeholder="🔍 Cari produk..."
 									value="${searchQuery}"
 								/>
 							</div>
 
-							<!-- Sort Select -->
-							<select id="sort-select" class="sort-dropdown">
+							<select id="sort-select" class="select select-bordered select-sm rounded-xl">
 								<option value="populer" ${sortBy === 'populer' ? 'selected' : ''}>Paling Populer</option>
 								<option value="harga-rendah" ${sortBy === 'harga-rendah' ? 'selected' : ''}>Harga Terendah</option>
 								<option value="harga-tinggi" ${sortBy === 'harga-tinggi' ? 'selected' : ''}>Harga Tertinggi</option>
@@ -530,12 +535,12 @@ function Content(container) {
 						</div>
 					</div>
 
-					<!-- Categories Bar -->
-					<div class="categories-bar">
+					<!-- Categories -->
+					<div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
 						${CATEGORIES.map(
 							(cat) => `
 							<button
-								class="category-btn ${activeCategory === cat.id ? 'active' : ''}"
+								class="btn btn-sm rounded-xl whitespace-nowrap category-btn ${activeCategory === cat.id ? 'btn-primary text-white' : 'btn-ghost border border-base-300'}"
 								data-cat="${cat.id}"
 							>
 								${cat.icon} ${cat.label}
@@ -548,37 +553,41 @@ function Content(container) {
 					${
 						products.length === 0
 							? `
-						<div class="empty-products">
-							<p>Produk tidak ditemukan untuk pencarian "${searchQuery}"</p>
+						<div class="text-center py-16 bg-base-200/50 rounded-3xl border border-dashed border-base-300">
+							<p class="text-base-content/60 font-medium">Produk tidak ditemukan untuk pencarian "${searchQuery}"</p>
 						</div>
 					`
 							: `
-						<div class="products-grid">
+						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 							${products
 								.map((p) => {
 									const isFav = wishlist.includes(p.id)
 									return `
-									<div class="product-card">
-										<div class="product-image-container">
-											${p.badge ? `<span class="product-badge badge-${p.badgeType}">${p.badge}</span>` : ''}
-											<button class="btn-wishlist ${isFav ? 'active' : ''}" data-wishlist-id="${p.id}" title="Favorit">
+									<div class="card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all rounded-2xl overflow-hidden group">
+										<figure class="relative h-56 overflow-hidden bg-base-200">
+											${p.badge ? `<span class="absolute top-3 left-3 badge ${p.badgeType} shadow-md">${p.badge}</span>` : ''}
+											<button class="absolute top-3 right-3 btn btn-circle btn-sm bg-base-100/80 backdrop-blur border-none hover:scale-110 transition-transform" data-wishlist-id="${p.id}" title="Favorit">
 												${isFav ? '❤️' : '🤍'}
 											</button>
-											<img src="${p.image}" alt="${p.name}" class="product-img" />
-											<button class="btn-quickview" data-quick-id="${p.id}">Lihat Detail</button>
-										</div>
-										<div class="product-info">
-											<span class="product-category">${p.category}</span>
-											<h3 class="product-name">${p.name}</h3>
-											<div class="product-rating">
-												⭐ ${p.rating} <span class="reviews-count">(${p.reviewsCount})</span>
+											<img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+											<button class="absolute bottom-3 left-3 right-3 btn btn-sm bg-base-100/90 backdrop-blur border-none font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity" data-quick-id="${p.id}">
+												👁️ Lihat Detail
+											</button>
+										</figure>
+										<div class="card-body p-5 space-y-2">
+											<span class="text-xs font-bold text-primary uppercase tracking-wider">${p.category}</span>
+											<h3 class="font-bold text-base line-clamp-1">${p.name}</h3>
+											<div class="text-xs text-amber-500 font-semibold flex items-center gap-1">
+												⭐ ${p.rating} <span class="text-base-content/40 font-normal">(${p.reviewsCount} Ulasan)</span>
 											</div>
-											<div class="product-price-row">
+											<div class="flex items-center justify-between pt-2 border-t border-base-200">
 												<div>
-													<span class="current-price">${formatRupiah(p.price)}</span>
-													${p.originalPrice ? `<span class="old-price">${formatRupiah(p.originalPrice)}</span>` : ''}
+													<div class="text-base font-extrabold text-primary">${formatRupiah(p.price)}</div>
+													${p.originalPrice ? `<div class="text-xs text-base-content/40 line-through">${formatRupiah(p.originalPrice)}</div>` : ''}
 												</div>
-												<button class="btn-add-cart" data-cart-id="${p.id}">+ Keranjang</button>
+												<button class="btn btn-primary btn-sm text-white rounded-xl shadow-md" data-cart-id="${p.id}">
+													+ Keranjang
+												</button>
 											</div>
 										</div>
 									</div>
@@ -590,140 +599,142 @@ function Content(container) {
 					}
 				</section>
 
-				<!-- NEWSLETTER -->
-				<section class="newsletter-section" id="about">
-					<div class="newsletter-card">
-						<h2>Dapatkan Voucher Rp 100.000!</h2>
-						<p>Berlangganan newsletter kami dan dapatkan penawaran eksklusif serta voucher diskon langsung ke email Anda.</p>
-						<form id="newsletter-form" class="newsletter-form">
+				<!-- NEWSLETTER SECTION -->
+				<section id="about" class="bg-gradient-to-r from-primary to-accent text-white rounded-3xl p-8 lg:p-12 text-center space-y-6 shadow-xl">
+					<div class="max-w-2xl mx-auto space-y-4">
+						<h2 class="text-3xl font-extrabold">Dapatkan Voucher Rp 100.000!</h2>
+						<p class="text-white/80 text-sm">Berlangganan newsletter kami dan dapatkan penawaran eksklusif serta voucher diskon langsung ke email Anda.</p>
+						<form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
 							<input
 								type="email"
 								id="newsletter-email"
-								placeholder="Masukkan alamat email Anda..."
+								class="input text-base-content w-full rounded-xl"
+								placeholder="Masukkan alamat email..."
 								required
 							/>
-							<button type="submit" class="btn-subscribe">Klaim Voucher</button>
+							<button type="submit" class="btn btn-warning text-gray-900 font-bold rounded-xl whitespace-nowrap">Klaim Voucher</button>
 						</form>
 					</div>
 				</section>
 
-				<!-- CART SIDEBAR MODAL -->
+				<!-- CART DRAWER MODAL -->
 				${
 					isCartOpen
 						? `
-					<div class="modal-backdrop" id="cart-backdrop">
-						<div class="cart-drawer">
-							<div class="drawer-header">
-								<h3>🛒 Keranjang Belanja (${cartCount})</h3>
-								<button id="close-cart-btn" class="close-drawer-btn">&times;</button>
-							</div>
+					<div class="modal modal-open bg-black/50 backdrop-blur-sm" id="cart-backdrop">
+						<div class="modal-box max-w-md w-full p-6 rounded-2xl bg-base-100 relative">
+							<button id="close-cart-btn" class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">&times;</button>
+							<h3 class="font-bold text-xl mb-4">🛒 Keranjang Belanja (${cartCount})</h3>
 
-							<div class="drawer-body">
-								${
-									cart.length === 0
-										? `
-									<div class="empty-cart-view">
-										<p>Keranjang Anda masih kosong</p>
-									</div>
-								`
-										: `
-									<div class="cart-items-list">
-										${cart
-											.map(
-												(item, index) => `
-											<div class="cart-item">
-												<img src="${item.image}" alt="${item.name}" />
-												<div class="cart-item-details">
-													<h4>${item.name}</h4>
-													${item.color ? `<span class="item-color">Warna: ${item.color}</span>` : ''}
-													<span class="item-price">${formatRupiah(item.price)}</span>
-													<div class="qty-controls">
-														<button data-cart-qty-index="${index}" data-delta="-1">-</button>
-														<span>${item.quantity}</span>
-														<button data-cart-qty-index="${index}" data-delta="1">+</button>
-													</div>
+							${
+								cart.length === 0
+									? `
+								<div class="text-center py-12 space-y-3">
+									<div class="text-4xl">🛍️</div>
+									<p class="text-base-content/60 text-sm font-medium">Keranjang Anda masih kosong</p>
+								</div>
+							`
+									: `
+								<div class="space-y-4 max-h-96 overflow-y-auto pr-1">
+									${cart
+										.map(
+											(item, index) => `
+										<div class="flex items-center gap-3 p-3 bg-base-200/50 rounded-xl border border-base-300">
+											<img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg" />
+											<div class="flex-1 min-w-0">
+												<h4 class="font-bold text-sm truncate">${item.name}</h4>
+												${item.color ? `<div class="text-xs text-base-content/60">Warna: ${item.color}</div>` : ''}
+												<div class="text-sm font-bold text-primary">${formatRupiah(item.price)}</div>
+												<div class="flex items-center gap-2 mt-1">
+													<button class="btn btn-xs btn-circle btn-outline" data-cart-qty-index="${index}" data-delta="-1">-</button>
+													<span class="text-xs font-bold">${item.quantity}</span>
+													<button class="btn btn-xs btn-circle btn-outline" data-cart-qty-index="${index}" data-delta="1">+</button>
 												</div>
-												<button data-cart-remove-index="${index}" class="btn-remove-item">🗑️</button>
 											</div>
-										`
-											)
-											.join('')}
-									</div>
+											<button class="btn btn-ghost btn-sm text-error" data-cart-remove-index="${index}">🗑️</button>
+										</div>
+									`
+										)
+										.join('')}
+								</div>
 
-									<!-- VOUCHER PROMO BOX -->
-									<div class="voucher-input-box">
-										<input type="text" id="voucher-input-code" placeholder="Kode Voucher..." value="${inputVoucherCode}" />
-										<button id="apply-voucher-btn">Gunakan</button>
+								<div class="space-y-3 pt-4 border-t border-base-200 mt-4">
+									<div class="flex gap-2">
+										<input type="text" id="voucher-input-code" class="input input-bordered input-sm flex-1 uppercase text-xs" placeholder="Kode Voucher..." value="${inputVoucherCode}" />
+										<button id="apply-voucher-btn" class="btn btn-sm btn-outline">Gunakan</button>
 									</div>
 
 									${
 										appliedVoucher
 											? `
-										<div class="applied-voucher-tag">
+										<div class="alert alert-success py-2 text-white text-xs flex justify-between rounded-xl">
 											<span>🎉 Voucher ${appliedVoucher.code} (-${formatRupiah(discount)})</span>
-											<button id="remove-voucher-btn">&times;</button>
+											<button id="remove-voucher-btn" class="btn btn-xs btn-circle btn-ghost">&times;</button>
 										</div>
 									`
 											: ''
 									}
 
-									<div class="cart-summary">
-										<div class="summary-row">
+									<div class="space-y-1.5 text-sm">
+										<div class="flex justify-between text-base-content/60">
 											<span>Subtotal</span>
 											<span>${formatRupiah(subtotal)}</span>
 										</div>
 										${
 											discount > 0
 												? `
-											<div class="summary-row discount">
+											<div class="flex justify-between text-success font-medium">
 												<span>Diskon Voucher</span>
 												<span>-${formatRupiah(discount)}</span>
 											</div>
 										`
 												: ''
 										}
-										<div class="summary-row total">
+										<div class="flex justify-between font-extrabold text-base pt-2 border-t border-base-200">
 											<span>Total Pembayaran</span>
-											<span>${formatRupiah(finalTotal)}</span>
+											<span class="text-primary">${formatRupiah(finalTotal)}</span>
 										</div>
-										<button id="checkout-btn" class="btn-checkout">Bayar Sekarang (QRIS)</button>
 									</div>
-								`
-								}
-							</div>
+
+									<button id="checkout-btn" class="btn btn-primary text-white btn-block rounded-xl font-bold shadow-lg">
+										Bayar Sekarang (QRIS)
+									</button>
+								</div>
+							`
+							}
 						</div>
 					</div>
 				`
 						: ''
 				}
 
-				<!-- QUICK VIEW PRODUCT MODAL -->
+				<!-- QUICK VIEW MODAL -->
 				${
 					selectedProduct
 						? `
-					<div class="modal-backdrop" id="quickview-backdrop">
-						<div class="modal-card">
-							<button id="close-quickview-btn" class="modal-close">&times;</button>
-							<div class="quickview-grid">
-								<img src="${selectedProduct.image}" alt="${selectedProduct.name}" class="quickview-img" />
-								<div class="quickview-info">
-									<span class="product-category">${selectedProduct.category}</span>
-									<h2>${selectedProduct.name}</h2>
-									<div class="product-rating">⭐ ${selectedProduct.rating}</div>
-									<p class="quickview-desc">${selectedProduct.description}</p>
-									<div class="quickview-price">${formatRupiah(selectedProduct.price)}</div>
+					<div class="modal modal-open bg-black/50 backdrop-blur-sm" id="quickview-backdrop">
+						<div class="modal-box max-w-2xl w-full p-6 rounded-3xl bg-base-100 relative">
+							<button id="close-quickview-btn" class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">&times;</button>
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<img src="${selectedProduct.image}" alt="${selectedProduct.name}" class="w-full h-64 object-cover rounded-2xl shadow-lg" />
+								<div class="space-y-4">
+									<span class="badge badge-primary uppercase text-xs font-bold">${selectedProduct.category}</span>
+									<h2 class="text-xl font-bold">${selectedProduct.name}</h2>
+									<div class="text-xs text-amber-500 font-semibold">⭐ ${selectedProduct.rating}</div>
+									<p class="text-xs text-base-content/70 leading-relaxed">${selectedProduct.description}</p>
+									<div class="text-2xl font-extrabold text-primary">${formatRupiah(selectedProduct.price)}</div>
 
 									${
 										selectedProduct.colors
 											? `
-										<div class="color-selection">
-											<label>Pilih Warna:</label>
-											<div class="color-options">
+										<div class="space-y-1">
+											<label class="text-xs font-bold uppercase text-base-content/60">Pilih Warna:</label>
+											<div class="flex flex-wrap gap-2">
 												${selectedProduct.colors
 													.map(
 														(color) => `
 													<button
-														class="color-btn ${selectedColor === color ? 'active' : ''}"
+														class="btn btn-xs rounded-lg ${selectedColor === color ? 'btn-primary text-white' : 'btn-outline'}"
 														data-select-color="${color}"
 													>
 														${color}
@@ -737,13 +748,15 @@ function Content(container) {
 											: ''
 									}
 
-									<div class="quickview-qty-row">
-										<div class="qty-picker">
-											<button id="qv-qty-minus">-</button>
-											<span>${modalQty}</span>
-											<button id="qv-qty-plus">+</button>
+									<div class="flex items-center gap-3 pt-2">
+										<div class="flex items-center border border-base-300 rounded-xl px-2 py-1 gap-2">
+											<button id="qv-qty-minus" class="btn btn-xs btn-ghost">-</button>
+											<span class="font-bold text-sm px-2">${modalQty}</span>
+											<button id="qv-qty-plus" class="btn btn-xs btn-ghost">+</button>
 										</div>
-										<button id="qv-add-to-cart" class="btn-primary-lg">Tambah ke Keranjang</button>
+										<button id="qv-add-to-cart" class="btn btn-primary text-white flex-1 rounded-xl font-bold">
+											+ Keranjang
+										</button>
 									</div>
 								</div>
 							</div>
@@ -757,35 +770,35 @@ function Content(container) {
 				${
 					isPaymentModalOpen && pendingOrder
 						? `
-					<div class="modal-backdrop" id="payment-backdrop">
-						<div class="modal-card payment-modal">
-							<button id="close-payment-btn" class="modal-close">&times;</button>
+					<div class="modal modal-open bg-black/50 backdrop-blur-sm" id="payment-backdrop">
+						<div class="modal-box max-w-sm text-center p-6 rounded-3xl bg-base-100 relative space-y-4">
+							<button id="close-payment-btn" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">&times;</button>
 							${
 								paymentStage === 'qr'
 									? `
-								<h3>Scan QRIS Pembayaran</h3>
-								<p class="order-id-sub">No. Pesanan: <strong>${pendingOrder.id}</strong></p>
-								<div class="qr-container">
-									<img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent('QRIS:' + pendingOrder.id)}" alt="QR Code" />
+								<h3 class="text-xl font-bold">Scan QRIS Pembayaran</h3>
+								<p class="text-xs text-base-content/60">No. Pesanan: <strong class="font-mono">${pendingOrder.id}</strong></p>
+								<div class="p-4 bg-white rounded-2xl shadow-inner inline-block mx-auto border border-base-300">
+									<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('QRIS:' + pendingOrder.id)}" alt="QR Code" class="w-48 h-48 mx-auto" />
 								</div>
-								<div class="payment-amount">${formatRupiah(pendingOrder.total)}</div>
-								<p class="scan-instructions">Gunakan aplikasi M-Banking atau E-Wallet pilihanmu untuk me-scan QRIS di atas.</p>
-								<button id="simulate-scan-btn" class="btn-primary-lg">Simulasi Scan & Bayar</button>
+								<div class="text-2xl font-extrabold text-primary">${formatRupiah(pendingOrder.total)}</div>
+								<p class="text-xs text-base-content/60">Gunakan aplikasi M-Banking atau E-Wallet pilihanmu untuk me-scan QRIS di atas.</p>
+								<button id="simulate-scan-btn" class="btn btn-primary text-white btn-block rounded-xl font-bold shadow-lg">Simulasi Scan & Bayar</button>
 							`
 									: paymentStage === 'scanning'
 									? `
-								<div class="payment-status-view">
-									<div class="spinner"></div>
-									<h3>Memproses Pembayaran...</h3>
-									<p>Mohon tunggu sebentar</p>
+								<div class="py-8 space-y-4">
+									<span class="loading loading-spinner loading-lg text-primary"></span>
+									<h3 class="text-lg font-bold">Memproses Pembayaran...</h3>
+									<p class="text-xs text-base-content/60">Mohon tunggu sebentar</p>
 								</div>
 							`
 									: `
-								<div class="payment-status-view success">
-									<div class="success-icon">🎉</div>
-									<h3>Pembayaran Berhasil!</h3>
-									<p>Pesanan <strong>${pendingOrder.id}</strong> sedang diproses.</p>
-									<button id="finish-payment-btn" class="btn-primary-lg">Selesai & Lihat Riwayat</button>
+								<div class="py-6 space-y-4">
+									<div class="text-5xl animate-bounce">🎉</div>
+									<h3 class="text-2xl font-bold text-success">Pembayaran Berhasil!</h3>
+									<p class="text-xs text-base-content/70">Pesanan <strong class="font-mono">${pendingOrder.id}</strong> sedang diproses.</p>
+									<button id="finish-payment-btn" class="btn btn-primary text-white btn-block rounded-xl font-bold">Selesai & Lihat Riwayat</button>
 								</div>
 							`
 							}
@@ -795,91 +808,77 @@ function Content(container) {
 						: ''
 				}
 
-				<!-- ORDER HISTORY MODAL -->
+				<!-- HISTORY MODAL -->
 				${
 					isHistoryOpen
 						? `
-					<div class="modal-backdrop" id="history-backdrop">
-						<div class="modal-card">
-							<div class="modal-header">
-								<h3>📜 Riwayat Pesanan Saya</h3>
-								<button id="close-history-btn" class="modal-close">&times;</button>
-							</div>
-							<div class="modal-body">
-								${
-									orderHistory.length === 0
-										? `<p>Belum ada riwayat pesanan</p>`
-										: `
-									<div class="orders-list">
-										${orderHistory
-											.map(
-												(ord) => `
-											<div class="order-card">
-												<div class="order-header-row">
-													<strong>${ord.id}</strong>
-													<span class="order-date">${ord.date}</span>
-												</div>
-												<div class="order-items">
-													${ord.items
-														.map(
-															(it) => `
-														<div>${it.name} (x${it.quantity})</div>
-													`
-														)
-														.join('')}
-												</div>
-												<div class="order-total-row">
-													<span>Total: <strong>${formatRupiah(ord.total)}</strong></span>
-													<span class="order-status-tag">${ord.status}</span>
-												</div>
+					<div class="modal modal-open bg-black/50 backdrop-blur-sm" id="history-backdrop">
+						<div class="modal-box max-w-lg w-full p-6 rounded-3xl bg-base-100 relative space-y-4">
+							<button id="close-history-btn" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">&times;</button>
+							<h3 class="text-xl font-bold">📜 Riwayat Pesanan Saya</h3>
+							${
+								orderHistory.length === 0
+									? `<p class="text-center text-sm text-base-content/60 py-8">Belum ada riwayat pesanan</p>`
+									: `
+								<div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+									${orderHistory
+										.map(
+											(ord) => `
+										<div class="p-4 bg-base-200/50 rounded-2xl border border-base-300 space-y-2 text-left">
+											<div class="flex justify-between items-center text-xs">
+												<strong class="font-mono text-primary">${ord.id}</strong>
+												<span class="text-base-content/60">${ord.date}</span>
 											</div>
-										`
-											)
-											.join('')}
-									</div>
-									<button id="clear-history-btn" class="btn-secondary-lg red-text">Bersihkan Riwayat</button>
-								`
-								}
-							</div>
+											<div class="text-xs space-y-1 border-t border-b border-base-200 py-2">
+												${ord.items.map((it) => `<div>• ${it.name} (x${it.quantity})</div>`).join('')}
+											</div>
+											<div class="flex justify-between items-center text-xs font-bold">
+												<span>Total: <span class="text-primary">${formatRupiah(ord.total)}</span></span>
+												<span class="badge badge-success text-white badge-sm">${ord.status}</span>
+											</div>
+										</div>
+									`
+										)
+										.join('')}
+								</div>
+								<button id="clear-history-btn" class="btn btn-ghost text-error btn-block btn-sm">Bersihkan Riwayat</button>
+							`
+							}
 						</div>
 					</div>
 				`
 						: ''
 				}
 
-				<!-- VOUCHER LIST MODAL -->
+				<!-- VOUCHERS MODAL -->
 				${
 					isVoucherModalOpen
 						? `
-					<div class="modal-backdrop" id="voucher-backdrop">
-						<div class="modal-card">
-							<div class="modal-header">
-								<h3>🎫 Voucher Saya</h3>
-								<button id="close-voucher-btn" class="modal-close">&times;</button>
-							</div>
-							<div class="modal-body">
-								<div class="vouchers-list">
-									${vouchers
-										.map(
-											(v) => `
-										<div class="voucher-card ${v.isUsed ? 'used' : ''}">
-											<div class="voucher-info">
-												<h4>${v.title}</h4>
-												<p>${v.description}</p>
-												<span class="voucher-code-tag">${v.code}</span>
-											</div>
-											<button
-												class="btn-use-voucher"
-												data-voucher-code="${v.code}"
-												${v.isUsed ? 'disabled' : ''}
-											>
-												${v.isUsed ? 'Terpakai' : 'Gunakan'}
-											</button>
+					<div class="modal modal-open bg-black/50 backdrop-blur-sm" id="voucher-backdrop">
+						<div class="modal-box max-w-md w-full p-6 rounded-3xl bg-base-100 relative space-y-4">
+							<button id="close-voucher-btn" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">&times;</button>
+							<h3 class="text-xl font-bold">🎫 Voucher Saya</h3>
+							<div class="space-y-3">
+								${vouchers
+									.map(
+										(v) => `
+									<div class="p-4 bg-base-200/50 rounded-2xl border border-base-300 flex items-center justify-between gap-3 ${v.isUsed ? 'opacity-50' : ''}">
+										<div class="space-y-1 text-left">
+											<h4 class="font-bold text-sm">${v.title}</h4>
+											<p class="text-xs text-base-content/60">${v.description}</p>
+											<span class="badge badge-outline badge-sm font-mono">${v.code}</span>
 										</div>
-									`
-										)
-										.join('')}
-								</div>
+										<button
+											class="btn btn-sm ${v.isUsed ? 'btn-disabled' : 'btn-primary text-white'} rounded-xl"
+											data-voucher-code="${v.code}"
+											${v.isUsed ? 'disabled' : ''}
+										>
+											${v.isUsed ? 'Terpakai' : 'Gunakan'}
+										</button>
+									</div>
+								`
+									)
+									.join('')}
 							</div>
 						</div>
 					</div>
@@ -894,7 +893,6 @@ function Content(container) {
 	}
 
 	const attachEvents = () => {
-		// Category Buttons
 		container.querySelectorAll('.category-btn').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				activeCategory = btn.getAttribute('data-cat')
@@ -902,7 +900,6 @@ function Content(container) {
 			})
 		})
 
-		// Search Input
 		const searchInput = container.querySelector('#search-input')
 		if (searchInput) {
 			searchInput.addEventListener('input', (e) => {
@@ -916,7 +913,6 @@ function Content(container) {
 			})
 		}
 
-		// Sort Select
 		const sortSelect = container.querySelector('#sort-select')
 		if (sortSelect) {
 			sortSelect.addEventListener('change', (e) => {
@@ -925,7 +921,6 @@ function Content(container) {
 			})
 		}
 
-		// Wishlist Toggle
 		container.querySelectorAll('[data-wishlist-id]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const id = parseInt(btn.getAttribute('data-wishlist-id'))
@@ -941,7 +936,6 @@ function Content(container) {
 			})
 		})
 
-		// Add to Cart from product grid
 		container.querySelectorAll('[data-cart-id]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const id = parseInt(btn.getAttribute('data-cart-id'))
@@ -960,7 +954,6 @@ function Content(container) {
 			})
 		})
 
-		// Flash sale buy buttons
 		container.querySelectorAll('.btn-flash-buy').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const id = parseInt(btn.getAttribute('data-id'))
@@ -980,7 +973,6 @@ function Content(container) {
 			})
 		})
 
-		// Quick view open
 		container.querySelectorAll('[data-quick-id]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const id = parseInt(btn.getAttribute('data-quick-id'))
@@ -994,7 +986,6 @@ function Content(container) {
 			})
 		})
 
-		// Quick View Controls
 		const closeQV = container.querySelector('#close-quickview-btn')
 		if (closeQV) {
 			closeQV.addEventListener('click', () => {
@@ -1048,7 +1039,6 @@ function Content(container) {
 			})
 		}
 
-		// Floating & Quickbar Cart button
 		const openCartBtn = container.querySelector('#open-cart-floating-btn')
 		if (openCartBtn) {
 			openCartBtn.addEventListener('click', () => {
@@ -1057,7 +1047,6 @@ function Content(container) {
 			})
 		}
 
-		// Cart Drawer controls
 		const closeCartBtn = container.querySelector('#close-cart-btn')
 		if (closeCartBtn) {
 			closeCartBtn.addEventListener('click', () => {
@@ -1066,7 +1055,6 @@ function Content(container) {
 			})
 		}
 
-		// Update Cart Qty
 		container.querySelectorAll('[data-cart-qty-index]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const idx = parseInt(btn.getAttribute('data-cart-qty-index'))
@@ -1082,7 +1070,6 @@ function Content(container) {
 			})
 		})
 
-		// Remove Cart Item
 		container.querySelectorAll('[data-cart-remove-index]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const idx = parseInt(btn.getAttribute('data-cart-remove-index'))
@@ -1093,7 +1080,6 @@ function Content(container) {
 			})
 		})
 
-		// Apply Voucher
 		const applyVoucherBtn = container.querySelector('#apply-voucher-btn')
 		if (applyVoucherBtn) {
 			applyVoucherBtn.addEventListener('click', () => {
@@ -1123,7 +1109,6 @@ function Content(container) {
 			})
 		}
 
-		// Remove Applied Voucher
 		const removeVoucherBtn = container.querySelector('#remove-voucher-btn')
 		if (removeVoucherBtn) {
 			removeVoucherBtn.addEventListener('click', () => {
@@ -1134,7 +1119,6 @@ function Content(container) {
 			})
 		}
 
-		// Checkout -> Open Payment Modal
 		const checkoutBtn = container.querySelector('#checkout-btn')
 		if (checkoutBtn) {
 			checkoutBtn.addEventListener('click', () => {
@@ -1161,7 +1145,6 @@ function Content(container) {
 			})
 		}
 
-		// QR Payment Modal Controls
 		const closePaymentBtn = container.querySelector('#close-payment-btn')
 		if (closePaymentBtn) {
 			closePaymentBtn.addEventListener('click', () => {
@@ -1188,7 +1171,6 @@ function Content(container) {
 						cart = []
 						saveAll()
 
-						// Trigger canvas-confetti!
 						try {
 							confetti({
 								particleCount: 100,
@@ -1213,7 +1195,6 @@ function Content(container) {
 			})
 		}
 
-		// History Modal
 		const openHistoryBtn = container.querySelector('#open-history-btn')
 		if (openHistoryBtn) {
 			openHistoryBtn.addEventListener('click', () => {
@@ -1241,7 +1222,6 @@ function Content(container) {
 			})
 		}
 
-		// Voucher Modal
 		const openVouchersBtn = container.querySelector('#open-vouchers-btn')
 		if (openVouchersBtn) {
 			openVouchersBtn.addEventListener('click', () => {
@@ -1268,7 +1248,6 @@ function Content(container) {
 			})
 		})
 
-		// Newsletter Form
 		const newsForm = container.querySelector('#newsletter-form')
 		if (newsForm) {
 			newsForm.addEventListener('submit', (e) => {
