@@ -13,6 +13,13 @@
         darkMode: ['class', '[data-theme="dark"]'],
         theme: {
           extend: {
+            colors: {
+              lumiere: {
+                dark: '#464858',
+                accent: '#A56F63',
+                hover: '#8e5c52'
+              }
+            },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               serif: ['Georgia', 'serif'],
@@ -25,7 +32,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-base-100 text-base-content antialiased font-sans transition-colors duration-200">
+  <body class="bg-base-100 text-lumiere-dark antialiased font-sans transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
