@@ -1,48 +1,46 @@
 function SearchIcon() {
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="m16 16 4.5 4.5" />
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
     </svg>
   `
 }
 
 function BagIcon() {
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 8.5h14l-1 11H6l-1-11Z" />
-      <path d="M9 9V6.5a3 3 0 0 1 6 0V9" />
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+      <path d="M3 6h18" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
     </svg>
   `
 }
 
 function UserIcon() {
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="8" r="3" />
-      <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </svg>
   `
 }
 
 function MenuIcon(isOpen) {
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      ${isOpen ? '<path d="m6 6 12 12M18 6 6 18" />' : '<path d="M4 7h16M4 12h16M4 17h16" />'}
+    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      ${isOpen ? '<path d="M18 6 6 18M6 6l12 12" />' : '<path d="M4 12h16M4 6h16M4 18h16" />'}
     </svg>
   `
 }
 
 function ThemeIcon(isDark) {
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       ${
         isDark
-          ? '<path d="M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" />'
-          : `
-          <circle cx="12" cy="12" r="3.5" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        `
+          ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>'
+          : '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
       }
     </svg>
   `
@@ -55,10 +53,9 @@ function Header(container) {
   let isDark = localStorage.getItem('lumiere-theme') === 'dark'
   let toastTimeout = null
 
-  // Initial Theme Setup
-  document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
+  // Setup initial theme attribute for DaisyUI + CSS
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
 
-  // Initialize Google Translate
   const initGoogleTranslate = () => {
     window.googleTranslateElementInit = () => {
       if (!window.google?.translate?.TranslateElement) return
@@ -81,498 +78,108 @@ function Header(container) {
 
   const render = () => {
     container.innerHTML = `
-      <style>
-        :root[data-theme='light'] {
-          --text: #6b6375;
-          --text-h: #08060d;
-          --bg: #fff;
-          --border: #e5e4e7;
-        }
+      <header class="navbar bg-base-100 border-b border-base-200 sticky top-0 z-40 px-4 lg:px-12 shadow-sm transition-colors duration-200">
+        <div class="navbar-start gap-4">
+          <a class="text-2xl font-serif font-bold tracking-widest text-primary flex items-center gap-1" href="/" aria-label="Lumiere home">
+            LUMI<span class="text-accent italic">È</span>RE
+          </a>
+        </div>
 
-        :root[data-theme='dark'] {
-          --text: #c1b9b0;
-          --text-h: #f5f0e9;
-          --bg: #161513;
-          --border: #37332f;
-        }
+        <div class="navbar-center hidden md:flex">
+          <ul class="menu menu-horizontal px-1 gap-4 font-semibold text-sm tracking-wide uppercase">
+            <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
+            <li><a href="#produk-list" class="hover:text-primary transition-colors">Shop</a></li>
+            <li><a href="#flash-sale" class="hover:text-primary transition-colors">New Arrival</a></li>
+            <li><a href="#about" class="hover:text-primary transition-colors">About</a></li>
+          </ul>
+        </div>
 
-        body {
-          background: var(--bg);
-          transition: background 180ms ease, color 180ms ease;
-        }
-
-        .navbar {
-          --ink: #1f2933;
-          --muted: #7d858b;
-          --line: #e8e4de;
-          --accent: #c96b4b;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 32px;
-          padding: 22px clamp(22px, 5vw, 68px);
-          color: var(--ink);
-          background: #fdfcf9;
-          border-bottom: 1px solid var(--line);
-          transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
-        }
-
-        :root[data-theme='dark'] .navbar {
-          --ink: #f5f0e9;
-          --muted: #aaa39c;
-          --line: #37332f;
-          --accent: #e98b67;
-          background: #201f1d;
-        }
-
-        .brand {
-          color: var(--ink);
-          text-decoration: none;
-          font-family: Georgia, serif;
-          font-size: 24px;
-          font-weight: 700;
-          letter-spacing: 3px;
-          line-height: 1;
-        }
-
-        .brand em {
-          color: var(--accent);
-          font-style: normal;
-        }
-
-        .main-nav {
-          display: flex;
-          align-items: center;
-          gap: clamp(18px, 3vw, 38px);
-          margin-left: auto;
-        }
-
-        .main-nav a {
-          position: relative;
-          text-decoration: none;
-          color: var(--muted);
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 0.8px;
-          text-transform: uppercase;
-          transition: color 180ms ease;
-        }
-
-        .main-nav a::after {
-          position: absolute;
-          right: 0;
-          bottom: -8px;
-          left: 0;
-          height: 2px;
-          content: '';
-          background: var(--accent);
-          transform: scaleX(0);
-          transform-origin: right;
-          transition: transform 180ms ease;
-        }
-
-        .main-nav a:hover,
-        .main-nav a:focus-visible {
-          color: var(--ink);
-        }
-
-        .main-nav a:hover::after,
-        .main-nav a:focus-visible::after {
-          transform: scaleX(1);
-          transform-origin: left;
-        }
-
-        .nav-actions {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .nav-action,
-        .menu-toggle {
-          display: grid;
-          width: 38px;
-          height: 38px;
-          place-items: center;
-          border: none;
-          border-radius: 50%;
-          color: var(--ink);
-          background: transparent;
-          cursor: pointer;
-          transition: color 180ms ease, background 180ms ease;
-        }
-
-        .nav-action:hover,
-        .nav-action:focus-visible,
-        .menu-toggle:hover,
-        .menu-toggle:focus-visible {
-          color: var(--accent);
-          background: #f3ece5;
-          outline: none;
-        }
-
-        .nav-action svg,
-        .menu-toggle svg {
-          width: 19px;
-          height: 19px;
-          fill: none;
-          stroke: currentColor;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-width: 1.7;
-        }
-
-        .translate-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-          width: 118px;
-          height: 32px;
-          border: 1px solid var(--line);
-          border-radius: 15px;
-          background: transparent;
-        }
-
-        .translate-wrap::after {
-          position: absolute;
-          top: 50%;
-          right: 10px;
-          width: 6px;
-          height: 6px;
-          content: '';
-          border-right: 1px solid var(--muted);
-          border-bottom: 1px solid var(--muted);
-          pointer-events: none;
-          transform: translateY(-65%) rotate(45deg);
-        }
-
-        #google_translate_element,
-        .translate-wrap .goog-te-gadget {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          height: 100%;
-          color: transparent !important;
-          font-size: 0;
-          line-height: 1 !important;
-        }
-
-        .translate-wrap .goog-te-combo,
-        .translate-wrap .goog-te-gadget select {
-          width: 100%;
-          height: 30px;
-          margin: 0 !important;
-          padding: 0 27px 0 12px;
-          border: 0;
-          outline: 0;
-          appearance: none;
-          -webkit-appearance: none;
-          color: var(--muted);
-          background: transparent;
-          cursor: pointer;
-          font: 600 10px/30px sans-serif;
-          letter-spacing: 0.3px;
-          text-transform: uppercase;
-        }
-
-        .translate-wrap .goog-te-gadget span,
-        .translate-wrap .goog-logo-link {
-          display: none !important;
-        }
-
-        .login-overlay {
-          position: fixed;
-          z-index: 20;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          padding: 20px;
-          background: rgba(20, 18, 16, 0.48);
-        }
-
-        .login-card {
-          position: relative;
-          width: min(100%, 390px);
-          padding: 34px;
-          border: 1px solid var(--line);
-          border-radius: 18px;
-          color: var(--ink);
-          background: var(--bg);
-          box-shadow: 0 22px 70px rgba(0, 0, 0, 0.2);
-          text-align: left;
-        }
-
-        .login-close {
-          position: absolute;
-          top: 14px;
-          right: 14px;
-          display: grid;
-          width: 32px;
-          height: 32px;
-          place-items: center;
-          border: 0;
-          border-radius: 50%;
-          color: var(--muted);
-          background: transparent;
-          cursor: pointer;
-          font-size: 22px;
-        }
-
-        .login-close:hover,
-        .login-close:focus-visible {
-          color: var(--accent);
-          background: var(--accent-bg, rgba(201, 107, 75, 0.1));
-        }
-
-        .login-card h2 {
-          margin: 0 0 6px;
-          color: var(--ink);
-          font-family: Georgia, serif;
-          font-size: 28px;
-        }
-
-        .login-card > p {
-          margin: 0 0 24px;
-          color: var(--muted);
-          font-size: 14px;
-        }
-
-        .login-form {
-          display: grid;
-          gap: 16px;
-        }
-
-        .login-form label {
-          display: grid;
-          gap: 7px;
-          color: var(--muted);
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.4px;
-          text-transform: uppercase;
-        }
-
-        .login-form input {
-          box-sizing: border-box;
-          width: 100%;
-          padding: 12px 13px;
-          border: 1px solid var(--line);
-          border-radius: 8px;
-          color: var(--ink);
-          background: transparent;
-          font: inherit;
-          font-size: 14px;
-        }
-
-        .login-form input:focus {
-          border-color: var(--accent);
-          outline: 2px solid var(--accent-border, #c96b4b);
-          outline-offset: 1px;
-        }
-
-        .login-submit,
-        .logout-button {
-          width: 100%;
-          padding: 12px 16px;
-          border: 0;
-          border-radius: 8px;
-          color: #fff;
-          background: var(--accent);
-          cursor: pointer;
-          font: 600 13px/1.2 sans-serif;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-        }
-
-        .login-submit:hover,
-        .logout-button:hover {
-          filter: brightness(0.92);
-        }
-
-        .login-error {
-          margin: -4px 0 0;
-          color: #bd4e42;
-          font-size: 13px;
-        }
-
-        .login-toast {
-          position: fixed;
-          z-index: 30;
-          right: 24px;
-          bottom: 24px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          max-width: min(360px, calc(100vw - 48px));
-          padding: 14px 18px;
-          border: 1px solid rgba(75, 145, 93, 0.25);
-          border-radius: 10px;
-          color: #285b35;
-          background: #eef8ef;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
-          font-size: 14px;
-          animation: toast-in 220ms ease-out;
-        }
-
-        .login-toast::before {
-          content: '\\2713';
-          display: grid;
-          width: 21px;
-          height: 21px;
-          flex: 0 0 auto;
-          place-items: center;
-          border-radius: 50%;
-          color: #fff;
-          background: #4b915d;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        :root[data-theme='dark'] .login-toast {
-          border-color: rgba(126, 200, 139, 0.3);
-          color: #d0f0d5;
-          background: #1e3825;
-        }
-
-        @keyframes toast-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .login-demo {
-          margin-top: 18px !important;
-          margin-bottom: 0 !important;
-          padding-top: 14px;
-          border-top: 1px solid var(--line);
-          font-size: 12px !important;
-          line-height: 1.6;
-        }
-
-        :root[data-theme='dark'] .translate-wrap .goog-te-gadget select {
-          color: var(--muted);
-        }
-
-        .menu-toggle {
-          display: none;
-        }
-
-        @media (max-width: 720px) {
-          .navbar {
-            flex-wrap: wrap;
-            gap: 0;
-            padding: 20px;
-          }
-
-          .menu-toggle {
-            display: grid;
-          }
-
-          .nav-actions {
-            margin-left: auto;
-          }
-
-          .nav-actions .nav-action:first-child {
-            display: none;
-          }
-
-          .translate-wrap {
-            display: none;
-          }
-
-          .main-nav {
-            display: ${isMenuOpen ? 'flex' : 'none'};
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 22px;
-            width: 100%;
-            margin: 24px 0 4px;
-            padding-top: 22px;
-            border-top: 1px solid var(--line);
-          }
-        }
-      </style>
-
-      <header class="navbar">
-        <a class="brand" href="/" aria-label="Lumiere home">LUMI<em>È</em>RE</a>
-
-        <nav class="main-nav" aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="#produk-list">Shop</a>
-          <a href="#flash-sale">New Arrival</a>
-          <a href="#about">About</a>
-        </nav>
-
-        <div class="nav-actions">
-          <div class="translate-wrap" aria-label="Choose language">
+        <div class="navbar-end gap-2">
+          <!-- Google Translate -->
+          <div class="hidden sm:flex items-center text-xs">
             <div id="google_translate_element"></div>
           </div>
+
+          <!-- Theme Toggle -->
           <button
             id="theme-toggle-btn"
-            class="nav-action"
+            class="btn btn-ghost btn-circle btn-sm"
             type="button"
             aria-label="${isDark ? 'Switch to light mode' : 'Switch to dark mode'}"
-            aria-pressed="${isDark}"
           >
             ${ThemeIcon(isDark)}
           </button>
-          <button class="nav-action" type="button" aria-label="Search">${SearchIcon()}</button>
-          <button class="nav-action" type="button" aria-label="Shopping bag">${BagIcon()}</button>
+
+          <!-- User Account Button -->
           <button
             id="user-toggle-btn"
-            class="nav-action"
+            class="btn btn-ghost btn-circle btn-sm text-base-content"
             type="button"
             aria-label="${isLoggedIn ? 'Open account' : 'Open login'}"
-            aria-pressed="${isLoginOpen}"
           >
             ${UserIcon()}
           </button>
+
+          <!-- Mobile Menu Toggle -->
           <button
             id="menu-toggle-btn"
-            class="menu-toggle"
+            class="btn btn-ghost btn-circle btn-sm md:hidden"
             type="button"
             aria-label="${isMenuOpen ? 'Close menu' : 'Open menu'}"
-            aria-expanded="${isMenuOpen}"
           >
             ${MenuIcon(isMenuOpen)}
           </button>
         </div>
       </header>
 
+      <!-- Mobile Dropdown Menu -->
+      ${
+        isMenuOpen
+          ? `
+        <div class="md:hidden bg-base-100 border-b border-base-200 px-6 py-4 space-y-3 transition-all duration-200">
+          <a href="/" class="block font-medium hover:text-primary py-1">Home</a>
+          <a href="#produk-list" class="block font-medium hover:text-primary py-1">Shop</a>
+          <a href="#flash-sale" class="block font-medium hover:text-primary py-1">New Arrival</a>
+          <a href="#about" class="block font-medium hover:text-primary py-1">About</a>
+        </div>
+      `
+          : ''
+      }
+
+      <!-- Login Modal -->
       ${
         isLoginOpen
           ? `
-        <div class="login-overlay" id="login-overlay" role="presentation">
-          <section class="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
-            <button class="login-close" id="login-close-btn" type="button" aria-label="Close login">
-              &times;
-            </button>
+        <div class="modal modal-open bg-black/50 backdrop-blur-sm" id="login-overlay">
+          <div class="modal-box relative max-w-sm rounded-2xl p-6 shadow-2xl bg-base-100">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3" id="login-close-btn">&times;</button>
             ${
               isLoggedIn
                 ? `
-                <h2 id="login-title">Welcome back</h2>
-                <p>Kamu sudah login sebagai pengguna Lumière.</p>
-                <button class="logout-button" id="logout-btn" type="button">Logout</button>
+                <h3 class="font-serif text-2xl font-bold mb-2">Welcome Back!</h3>
+                <p class="text-sm text-base-content/70 mb-6">Kamu sudah berhasil login sebagai pengguna Lumière.</p>
+                <button class="btn btn-error btn-block text-white" id="logout-btn" type="button">Logout</button>
               `
                 : `
-                <h2 id="login-title">Welcome back</h2>
-                <p>Masuk untuk melanjutkan pengalaman belanjamu.</p>
-                <form class="login-form" id="login-form">
-                  <label>
-                    Email
-                    <input type="email" id="login-email" placeholder="nama@email.com" required />
-                  </label>
-                  <label>
-                    Password
-                    <input type="password" id="login-password" placeholder="Masukkan password" required />
-                  </label>
+                <h3 class="font-serif text-2xl font-bold mb-1">Welcome Back</h3>
+                <p class="text-xs text-base-content/60 mb-6">Masuk untuk melanjutkan pengalaman belanjamu.</p>
+                <form class="space-y-4" id="login-form">
+                  <div class="form-control">
+                    <label class="label py-1"><span class="label-text text-xs font-semibold uppercase">Email</span></label>
+                    <input type="email" id="login-email" class="input input-bordered w-full text-sm" placeholder="user@lumiere.com" required />
+                  </div>
+                  <div class="form-control">
+                    <label class="label py-1"><span class="label-text text-xs font-semibold uppercase">Password</span></label>
+                    <input type="password" id="login-password" class="input input-bordered w-full text-sm" placeholder="••••••••" required />
+                  </div>
                   <div id="login-error-container"></div>
-                  <button class="login-submit" type="submit">Login</button>
+                  <button class="btn btn-primary btn-block text-white font-medium uppercase tracking-wider text-xs" type="submit">Login</button>
                 </form>
-                <p class="login-demo">Demo login: user@lumiere.com / lumiere123</p>
+                <div class="divider my-3 text-xs">DEMO CREDENTIALS</div>
+                <p class="text-center text-xs text-base-content/60 bg-base-200 py-2 rounded-lg font-mono">user@lumiere.com / lumiere123</p>
               `
             }
-          </section>
+          </div>
         </div>
       `
           : ''
@@ -581,7 +188,6 @@ function Header(container) {
       <div id="header-toast-container"></div>
     `
 
-    // Attach Event Listeners
     attachEvents()
     initGoogleTranslate()
   }
@@ -589,7 +195,13 @@ function Header(container) {
   const showToast = (message) => {
     const toastEl = container.querySelector('#header-toast-container')
     if (toastEl) {
-      toastEl.innerHTML = `<div class="login-toast" role="status">${message}</div>`
+      toastEl.innerHTML = `
+        <div class="toast toast-bottom toast-end z-50">
+          <div class="alert alert-success text-white text-sm shadow-lg flex items-center gap-2">
+            <span>✓ ${message}</span>
+          </div>
+        </div>
+      `
       if (toastTimeout) clearTimeout(toastTimeout)
       toastTimeout = setTimeout(() => {
         toastEl.innerHTML = ''
@@ -598,18 +210,16 @@ function Header(container) {
   }
 
   const attachEvents = () => {
-    // Theme toggle
     const themeBtn = container.querySelector('#theme-toggle-btn')
     if (themeBtn) {
       themeBtn.addEventListener('click', () => {
         isDark = !isDark
-        document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
         localStorage.setItem('lumiere-theme', isDark ? 'dark' : 'light')
         render()
       })
     }
 
-    // User / Login button toggle
     const userBtn = container.querySelector('#user-toggle-btn')
     if (userBtn) {
       userBtn.addEventListener('click', () => {
@@ -618,7 +228,6 @@ function Header(container) {
       })
     }
 
-    // Mobile menu toggle
     const menuBtn = container.querySelector('#menu-toggle-btn')
     if (menuBtn) {
       menuBtn.addEventListener('click', () => {
@@ -627,7 +236,6 @@ function Header(container) {
       })
     }
 
-    // Login Overlay Close
     const overlay = container.querySelector('#login-overlay')
     if (overlay) {
       overlay.addEventListener('click', (e) => {
@@ -646,7 +254,6 @@ function Header(container) {
       })
     }
 
-    // Logout
     const logoutBtn = container.querySelector('#logout-btn')
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
@@ -657,7 +264,6 @@ function Header(container) {
       })
     }
 
-    // Login Submit Form
     const loginForm = container.querySelector('#login-form')
     if (loginForm) {
       loginForm.addEventListener('submit', (e) => {
@@ -673,7 +279,7 @@ function Header(container) {
           render()
           showToast('Login berhasil. Selamat datang di Lumière!')
         } else if (errContainer) {
-          errContainer.innerHTML = '<p class="login-error" role="alert">Email atau password belum sesuai.</p>'
+          errContainer.innerHTML = '<p class="text-xs text-error font-medium">Email atau password belum sesuai.</p>'
         }
       })
     }
