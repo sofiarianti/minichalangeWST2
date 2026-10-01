@@ -1,82 +1,70 @@
-import { useEffect, useState } from 'react'
-
 function SearchIcon() {
-  return (
+  return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="11" cy="11" r="6.5" />
       <path d="m16 16 4.5 4.5" />
     </svg>
-  )
+  `
 }
 
 function BagIcon() {
-  return (
+  return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M5 8.5h14l-1 11H6l-1-11Z" />
       <path d="M9 9V6.5a3 3 0 0 1 6 0V9" />
     </svg>
-  )
+  `
 }
 
 function UserIcon() {
-  return (
+  return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="12" cy="8" r="3" />
       <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
     </svg>
-  )
+  `
 }
 
-function MenuIcon({ isOpen }) {
-  return (
+function MenuIcon(isOpen) {
+  return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      {isOpen ? <path d="m6 6 12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+      ${isOpen ? '<path d="m6 6 12 12M18 6 6 18" />' : '<path d="M4 7h16M4 12h16M4 17h16" />'}
     </svg>
-  )
+  `
 }
 
-function ThemeIcon({ isDark }) {
-  return (
+function ThemeIcon(isDark) {
+  return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      {isDark ? (
-        <path d="M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" />
-      ) : (
-        <>
+      ${
+        isDark
+          ? '<path d="M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" />'
+          : `
           <circle cx="12" cy="12" r="3.5" />
           <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        </>
-      )}
+        `
+      }
     </svg>
-  )
+  `
 }
 
-function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLoginOpen, setIsLoginOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem('lumiere-login') === 'true'
-  })
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loginError, setLoginError] = useState('')
-  const [toastMessage, setToastMessage] = useState('')
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem('lumiere-theme') === 'dark'
-  })
+function Header(container) {
+  let isMenuOpen = false
+  let isLoginOpen = false
+  let isLoggedIn = localStorage.getItem('lumiere-login') === 'true'
+  let isDark = localStorage.getItem('lumiere-theme') === 'dark'
+  let toastTimeout = null
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
-    localStorage.setItem('lumiere-theme', isDark ? 'dark' : 'light')
-  }, [isDark])
+  // Initial Theme Setup
+  document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
 
-  useEffect(() => {
+  // Initialize Google Translate
+  const initGoogleTranslate = () => {
     window.googleTranslateElementInit = () => {
       if (!window.google?.translate?.TranslateElement) return
       new window.google.translate.TranslateElement(
         { pageLanguage: 'id', includedLanguages: 'id,en,fr,ja,ko,zh-CN', autoDisplay: false },
-        'google_translate_element',
+        'google_translate_element'
       )
     }
 
@@ -89,40 +77,11 @@ function Navbar() {
     } else if (window.google?.translate?.TranslateElement) {
       window.googleTranslateElementInit()
     }
-  }, [])
-
-  useEffect(() => {
-    if (!toastMessage) return undefined
-
-    const timeoutId = setTimeout(() => setToastMessage(''), 3500)
-    return () => clearTimeout(timeoutId)
-  }, [toastMessage])
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-
-    if (email === 'user@lumiere.com' && password === 'lumiere123') {
-      setIsLoggedIn(true)
-      localStorage.setItem('lumiere-login', 'true')
-      setLoginError('')
-      setIsLoginOpen(false)
-      setPassword('')
-      setToastMessage('Login berhasil. Selamat datang di Lumière!')
-      return
-    }
-
-    setLoginError('Email atau password belum sesuai.')
   }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    localStorage.removeItem('lumiere-login')
-    setIsLoginOpen(false)
-  }
-
-  return (
-    <>
-      <style>{`
+  const render = () => {
+    container.innerHTML = `
+      <style>
         :root[data-theme='light'] {
           --text: #6b6375;
           --text-h: #08060d;
@@ -363,7 +322,7 @@ function Navbar() {
         .login-close:hover,
         .login-close:focus-visible {
           color: var(--accent);
-          background: var(--accent-bg);
+          background: var(--accent-bg, rgba(201, 107, 75, 0.1));
         }
 
         .login-card h2 {
@@ -408,7 +367,7 @@ function Navbar() {
 
         .login-form input:focus {
           border-color: var(--accent);
-          outline: 2px solid var(--accent-border);
+          outline: 2px solid var(--accent-border, #c96b4b);
           outline-offset: 1px;
         }
 
@@ -532,94 +491,195 @@ function Navbar() {
             border-top: 1px solid var(--line);
           }
         }
-      `}</style>
+      </style>
 
-      <header className="navbar">
-        <a className="brand" href="/" aria-label="Lumiere home">LUMI<em>È</em>RE</a>
+      <header class="navbar">
+        <a class="brand" href="/" aria-label="Lumiere home">LUMI<em>È</em>RE</a>
 
-        <nav className="main-nav" aria-label="Main navigation">
+        <nav class="main-nav" aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="/shop">Shop</a>
-          <a href="/new-arrival">New Arrival</a>
-          <a href="/about">About</a>
+          <a href="#produk-list">Shop</a>
+          <a href="#flash-sale">New Arrival</a>
+          <a href="#about">About</a>
         </nav>
 
-        <div className="nav-actions">
-          <div className="translate-wrap" aria-label="Choose language">
-            <div id="google_translate_element" />
+        <div class="nav-actions">
+          <div class="translate-wrap" aria-label="Choose language">
+            <div id="google_translate_element"></div>
           </div>
           <button
-            className="nav-action"
+            id="theme-toggle-btn"
+            class="nav-action"
             type="button"
-            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            aria-pressed={isDark}
-            onClick={() => setIsDark((dark) => !dark)}
+            aria-label="${isDark ? 'Switch to light mode' : 'Switch to dark mode'}"
+            aria-pressed="${isDark}"
           >
-            <ThemeIcon isDark={isDark} />
+            ${ThemeIcon(isDark)}
           </button>
-          <button className="nav-action" type="button" aria-label="Search"><SearchIcon /></button>
-          <button className="nav-action" type="button" aria-label="Shopping bag"><BagIcon /></button>
+          <button class="nav-action" type="button" aria-label="Search">${SearchIcon()}</button>
+          <button class="nav-action" type="button" aria-label="Shopping bag">${BagIcon()}</button>
           <button
-            className="nav-action"
+            id="user-toggle-btn"
+            class="nav-action"
             type="button"
-            aria-label={isLoggedIn ? 'Open account' : 'Open login'}
-            aria-pressed={isLoginOpen}
-            onClick={() => setIsLoginOpen(true)}
+            aria-label="${isLoggedIn ? 'Open account' : 'Open login'}"
+            aria-pressed="${isLoginOpen}"
           >
-            <UserIcon />
+            ${UserIcon()}
           </button>
           <button
-            className="menu-toggle"
+            id="menu-toggle-btn"
+            class="menu-toggle"
             type="button"
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label="${isMenuOpen ? 'Close menu' : 'Open menu'}"
+            aria-expanded="${isMenuOpen}"
           >
-            <MenuIcon isOpen={isMenuOpen} />
+            ${MenuIcon(isMenuOpen)}
           </button>
         </div>
       </header>
 
-      {isLoginOpen && (
-        <div className="login-overlay" role="presentation" onClick={(event) => {
-          if (event.target === event.currentTarget) setIsLoginOpen(false)
-        }}>
-          <section className="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
-            <button className="login-close" type="button" aria-label="Close login" onClick={() => setIsLoginOpen(false)}>
+      ${
+        isLoginOpen
+          ? `
+        <div class="login-overlay" id="login-overlay" role="presentation">
+          <section class="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+            <button class="login-close" id="login-close-btn" type="button" aria-label="Close login">
               &times;
             </button>
-            {isLoggedIn ? (
-              <>
+            ${
+              isLoggedIn
+                ? `
                 <h2 id="login-title">Welcome back</h2>
                 <p>Kamu sudah login sebagai pengguna Lumière.</p>
-                <button className="logout-button" type="button" onClick={handleLogout}>Logout</button>
-              </>
-            ) : (
-              <>
+                <button class="logout-button" id="logout-btn" type="button">Logout</button>
+              `
+                : `
                 <h2 id="login-title">Welcome back</h2>
                 <p>Masuk untuk melanjutkan pengalaman belanjamu.</p>
-                <form className="login-form" onSubmit={handleLogin}>
+                <form class="login-form" id="login-form">
                   <label>
                     Email
-                    <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="nama@email.com" required />
+                    <input type="email" id="login-email" placeholder="nama@email.com" required />
                   </label>
                   <label>
                     Password
-                    <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Masukkan password" required />
+                    <input type="password" id="login-password" placeholder="Masukkan password" required />
                   </label>
-                  {loginError && <p className="login-error" role="alert">{loginError}</p>}
-                  <button className="login-submit" type="submit">Login</button>
+                  <div id="login-error-container"></div>
+                  <button class="login-submit" type="submit">Login</button>
                 </form>
-                <p className="login-demo">Demo login: user@lumiere.com / lumiere123</p>
-              </>
-            )}
+                <p class="login-demo">Demo login: user@lumiere.com / lumiere123</p>
+              `
+            }
           </section>
         </div>
-      )}
+      `
+          : ''
+      }
 
-      {toastMessage && <div className="login-toast" role="status">{toastMessage}</div>}
-    </>
-  );
+      <div id="header-toast-container"></div>
+    `
+
+    // Attach Event Listeners
+    attachEvents()
+    initGoogleTranslate()
+  }
+
+  const showToast = (message) => {
+    const toastEl = container.querySelector('#header-toast-container')
+    if (toastEl) {
+      toastEl.innerHTML = `<div class="login-toast" role="status">${message}</div>`
+      if (toastTimeout) clearTimeout(toastTimeout)
+      toastTimeout = setTimeout(() => {
+        toastEl.innerHTML = ''
+      }, 3500)
+    }
+  }
+
+  const attachEvents = () => {
+    // Theme toggle
+    const themeBtn = container.querySelector('#theme-toggle-btn')
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        isDark = !isDark
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
+        localStorage.setItem('lumiere-theme', isDark ? 'dark' : 'light')
+        render()
+      })
+    }
+
+    // User / Login button toggle
+    const userBtn = container.querySelector('#user-toggle-btn')
+    if (userBtn) {
+      userBtn.addEventListener('click', () => {
+        isLoginOpen = true
+        render()
+      })
+    }
+
+    // Mobile menu toggle
+    const menuBtn = container.querySelector('#menu-toggle-btn')
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        isMenuOpen = !isMenuOpen
+        render()
+      })
+    }
+
+    // Login Overlay Close
+    const overlay = container.querySelector('#login-overlay')
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          isLoginOpen = false
+          render()
+        }
+      })
+    }
+
+    const closeBtn = container.querySelector('#login-close-btn')
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        isLoginOpen = false
+        render()
+      })
+    }
+
+    // Logout
+    const logoutBtn = container.querySelector('#logout-btn')
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        isLoggedIn = false
+        localStorage.removeItem('lumiere-login')
+        isLoginOpen = false
+        render()
+      })
+    }
+
+    // Login Submit Form
+    const loginForm = container.querySelector('#login-form')
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const email = container.querySelector('#login-email')?.value || ''
+        const password = container.querySelector('#login-password')?.value || ''
+        const errContainer = container.querySelector('#login-error-container')
+
+        if (email === 'user@lumiere.com' && password === 'lumiere123') {
+          isLoggedIn = true
+          localStorage.setItem('lumiere-login', 'true')
+          isLoginOpen = false
+          render()
+          showToast('Login berhasil. Selamat datang di Lumière!')
+        } else if (errContainer) {
+          errContainer.innerHTML = '<p class="login-error" role="alert">Email atau password belum sesuai.</p>'
+        }
+      })
+    }
+  }
+
+  render()
 }
 
-export default Navbar;
+export default Header
