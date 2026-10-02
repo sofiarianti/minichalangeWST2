@@ -699,8 +699,8 @@ function Content(container) {
 								<a class="flex items-center gap-3 text-white/80 transition-colors hover:text-[#F1CE84]" href="mailto:hello@lumiere.com"><span class="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[#F1CE84]" aria-hidden="true">@</span><span><span class="block text-[10px] uppercase tracking-wider text-white/45">Email</span>hello@lumiere.com</span></a>
 							</div>
 							<div class="flex flex-wrap gap-2 pt-1">
-								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://instagram.com/lumiere" target="_blank" rel="noreferrer">◎ Instagram <span class="text-white/45">@lumiere </span></a>
-								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://tiktok.com/@lumiere" target="_blank" rel="noreferrer">♪ TikTok <span class="text-white/45">@lumiere </span></a>
+								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://www.instagram.com/emilia.ap_/" target="_blank" rel="noreferrer">◎ Instagram <span class="text-white/45">@emilia.ap_</span></a>
+								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://www.instagram.com/sspiiayy__/" target="_blank" rel="noreferrer">♪ Instagram <span class="text-white/45">@sspiiay__ </span></a>
 							</div>
 						</div>
 					</div>
