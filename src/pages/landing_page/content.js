@@ -156,7 +156,7 @@ const FLASH_SALE_ITEMS = [
 		rating: 4.8,
 		sold: 92,
 		total: 100,
-		image: 'https://images.unsplash.com/photo-1609592424074-ed27e699b0c2?auto=format&fit=crop&w=600&q=80'
+		image: 'https://down-my.img.susercontent.com/file/my-11134207-820l4-mo9zkazufkll5a'
 	},
 	{
 		id: 103,
@@ -398,63 +398,69 @@ function Content(container) {
 				</div>
 
 				<!-- HERO BANNER -->
-				<section class="hero bg-gradient-to-br from-[#A56F63]/5 via-base-100 to-[#464858]/5 rounded-3xl p-8 lg:p-14 border border-base-200/80 shadow-sm relative overflow-hidden">
-					<div class="hero-content flex-col lg:flex-row gap-12 p-0 max-w-none items-center">
-						<div class="space-y-6 lg:w-1/2 text-left">
-							<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#0F3040]/20 text-[#0F3040] border border-[#0F3040]/20">
-								<span class="inline-block w-2 h-2 rounded-full bg-[#0F3040] animate-ping"></span>
-								✨ Flash Deal Diskon s.d 50%
+				<section class="hero relative isolate overflow-hidden rounded-3xl border border-[#31574F] bg-[#173A36] p-6 text-white shadow-xl shadow-[#173A36]/15 sm:p-9 lg:p-12">
+					<div class="hero-content relative z-10 flex-col gap-9 p-0 max-w-none items-center lg:flex-row lg:gap-12">
+						<div class="space-y-6 text-left lg:w-1/2">
+							<div class="inline-flex items-center gap-2 border border-[#E6BD68]/35 bg-[#E6BD68]/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-[#F1CE84]">
+								<span class="inline-block h-2 w-2 rounded-full bg-[#E6BD68]"></span>
+								Pilihan spesial minggu ini
 							</div>
 							
-							<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-[#0F3040]">
-								Temukan Gaya & <span class="text-[#8B5E3C]">Teknologi Impianmu</span>
+							<h1 class="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+								Belanja cerdas.<br />
+								<span class="text-[#E6BD68]">Tampil berkelas.</span>
 							</h1>
 							
-							<p class="text-base-content/70 text-base sm:text-lg leading-relaxed max-w-xl">
-								Koleksi gadget terkini, fashion branded, dan aksesoris eksklusif dengan garansi resmi dan pengiriman super cepat ke seluruh Indonesia.
+							<p class="max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
+								Temukan gadget, fashion, dan aksesori pilihan yang bikin keseharian terasa lebih istimewa. Semua original, dikirim cepat sampai depan pintu.
 							</p>
 
-							<div class="flex flex-wrap items-center gap-4 pt-2">
-								<a href="#produk-list" class="btn bg-[#0B1849] hover:bg-[#8e5c52] text-white px-8 h-12 min-h-12 border-none rounded-2xl font-bold shadow-lg shadow-[#A56F63]/25 hover:-translate-y-0.5 transition-all">
-									🛍️ Belanja Sekarang
+							<div class="flex flex-wrap items-center gap-3 pt-1">
+								<a href="#produk-list" class="btn h-12 min-h-12 border-none bg-[#E6BD68] px-6 font-bold text-[#173A36] shadow-lg shadow-black/10 transition-all hover:-translate-y-0.5 hover:bg-[#F1CE84]">
+									Jelajahi koleksi <span aria-hidden="true">→</span>
 								</a>
-								<a href="#flash-sale" class="btn btn-outline text-[#464858] hover:bg-[#A56F63]/10 hover:text-[#A56F63] hover:border-[#A56F63] h-12 min-h-12 px-6 rounded-2xl font-semibold hover:-translate-y-0.5 transition-all">
-									⚡ Lihat Flash Sale
+								<a href="#flash-sale" class="btn h-12 min-h-12 border border-white/25 bg-white/5 px-5 font-semibold text-white transition-all hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/10">
+									<span aria-hidden="true">⚡</span> Lihat promo
 								</a>
 							</div>
 
-							<div class="grid grid-cols-3 gap-6 pt-6 border-t border-base-200/80">
+							<div class="grid max-w-md grid-cols-3 gap-4 border-t border-white/15 pt-5 sm:gap-6">
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-[#0F3040]">15k+</div>
-									<div class="text-xs font-medium text-base-content/60 mt-0.5">Pelanggan Puas</div>
+									<div class="text-2xl font-black text-white lg:text-3xl">15k+</div>
+									<div class="mt-1 text-xs font-medium text-white/55">Pelanggan puas</div>
 								</div>
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-[#D99B21]">4.9 ★</div>
-									<div class="text-xs font-medium text-base-content/60 mt-0.5">Rating Toko</div>
+									<div class="text-2xl font-black text-[#E6BD68] lg:text-3xl">4.9 ★</div>
+									<div class="mt-1 text-xs font-medium text-white/55">Rating toko</div>
 								</div>
 								<div>
-									<div class="text-2xl lg:text-3xl font-black text-[#0F3040]">100%</div>
-									<div class="text-xs font-medium text-base-content/60 mt-0.5">Garansi Original</div>
+									<div class="text-2xl font-black text-white lg:text-3xl">100%</div>
+									<div class="mt-1 text-xs font-medium text-white/55">Produk original</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="lg:w-1/2 relative flex justify-center w-full">
-							<div class="relative w-full max-w-md group">
-								<div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#A56F63]/20 to-[#464858]/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
-								<div class="relative rounded-3xl overflow-hidden shadow-2xl border border-base-200 bg-base-100">
-									<img
-										src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
-										alt="Headphones Pro"
-										class="w-full h-80 lg:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
-									/>
-									<div class="absolute bottom-4 left-4 right-4 sm:right-auto bg-base-100/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-base-200/80">
-										<div class="text-xs font-medium text-base-content/60 uppercase tracking-wider">Headphones Pro ANC</div>
-										<div class="text-xl font-black text-[#A56F63] mt-0.5">Rp 1.499.000</div>
+						<div class="relative w-full lg:w-1/2">
+							<div class="group relative mx-auto w-full max-w-xl overflow-hidden rounded-2xl bg-[#D7D2C8] shadow-2xl shadow-black/30">
+								<img
+									src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85"
+									alt="Headphone nirkabel premium pilihan Lumière"
+									class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-96 lg:h-[430px]"
+								/>
+								<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 pt-16 sm:p-6 sm:pt-20">
+									<div class="flex flex-wrap items-end justify-between gap-3">
+										<div>
+											<div class="text-xs font-semibold uppercase tracking-widest text-white/70">Pilihan editor</div>
+											<div class="mt-1 text-lg font-bold text-white sm:text-xl">Headphones Pro ANC</div>
+										</div>
+										<div class="text-right">
+											<div class="text-xs text-white/65 line-through">Rp 2.299.000</div>
+											<div class="text-lg font-black text-[#F1CE84]">Rp 1.499.000</div>
+										</div>
 									</div>
-									<div class="absolute top-4 right-4 bg-base-100/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-base-200/80 text-xs font-bold text-[#A56F63] flex items-center gap-1.5">
-										⭐ <span>4.9 (248 Ulasan)</span>
-									</div>
+								</div>
+								<div class="absolute right-4 top-4 inline-flex items-center gap-1.5 border border-white/40 bg-white/90 px-3 py-2 text-xs font-bold text-[#173A36] shadow-lg backdrop-blur-sm sm:right-5 sm:top-5">
+									<span class="text-amber-500">★</span> 4.9 <span class="font-medium text-[#173A36]/60">(248 ulasan)</span>
 								</div>
 							</div>
 						</div>
@@ -513,7 +519,7 @@ function Content(container) {
 					<div class="flex flex-wrap items-center justify-between gap-4 border-b border-base-200 pb-4">
 						<div class="flex items-center gap-3">
 							<span class="text-3xl animate-bounce">⚡</span>
-							<h2 class="text-2xl font-bold">Flash Sale Hari Ini</h2>
+							<h2 class="text-2xl font-bold text-base-content">Flash Sale Hari Ini</h2>
 						</div>
 						<div class="flex items-center gap-2 bg-error/10 text-error px-4 py-2 rounded-xl font-mono text-sm font-bold">
 							<span>Berakhir dalam:</span>
@@ -527,9 +533,9 @@ function Content(container) {
 						${FLASH_SALE_ITEMS.map(
 							(item) => `
 							<div class="card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all rounded-2xl overflow-hidden group">
-								<figure class="relative h-48 overflow-hidden bg-base-200">
+								<figure class="relative h-48 overflow-hidden ${item.imageFit === 'contain' ? 'bg-white' : 'bg-base-200'}">
 									<span class="absolute top-3 left-3 badge badge-error text-white font-bold text-xs shadow-md">-${item.discount}%</span>
-									<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+									<img src="${item.image}" alt="${item.name}" class="w-full h-full ${item.imageFit === 'contain' ? 'object-contain' : 'object-cover group-hover:scale-105'} transition-transform duration-300" />
 								</figure>
 								<div class="card-body p-5 space-y-3">
 									<h3 class="font-bold text-base line-clamp-1">${item.name}</h3>
@@ -642,7 +648,7 @@ function Content(container) {
 				</section>
 
 				<!-- NEWSLETTER SECTION -->
-				<section id="about" class="bg-gradient-to-r from-primary to-accent text-white rounded-3xl p-8 lg:p-12 text-center space-y-6 shadow-xl">
+				<section id="newsletter" class="bg-gradient-to-br from-[#34343D] via-[#704D59] to-[#A56F63] text-white border border-[#E6BD68]/45 rounded-3xl p-8 lg:p-12 text-center space-y-6 shadow-xl shadow-[#34343D]/25">
 					<div class="max-w-2xl mx-auto space-y-4">
 						<h2 class="text-3xl font-extrabold">Dapatkan Voucher Rp 100.000!</h2>
 						<p class="text-white/80 text-sm">Berlangganan newsletter kami dan dapatkan penawaran eksklusif serta voucher diskon langsung ke email Anda.</p>
@@ -658,6 +664,52 @@ function Content(container) {
 						</form>
 					</div>
 				</section>
+			</main>
+
+			<footer id="about" class="w-full border-t border-[#E6BD68]/20 bg-gradient-to-br from-[#292A30] via-[#403941] to-[#59464A] text-white">
+				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div class="grid gap-10 py-10 md:grid-cols-[1.25fr_0.75fr_1fr] md:py-14 lg:gap-16">
+						<div class="space-y-5">
+							<div class="flex items-center gap-3">
+								<a class="inline-flex text-2xl font-serif font-bold tracking-widest text-white" href="/" aria-label="Lumière home">LUMI<span class="text-[#E6BD68] italic">È</span>RE</a>
+								<span class="h-px w-10 bg-[#E6BD68]/70"></span>
+								<span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/55">Pilihan untuk keseharian</span>
+							</div>
+							<h2 class="max-w-md text-2xl font-bold leading-tight text-white sm:text-3xl">Pilihan cerdas untuk hari yang lebih istimewa.</h2>
+							<p class="max-w-md text-sm leading-relaxed text-white/65">Lumière menghadirkan gadget, fashion, dan aksesori pilihan yang memadukan fungsi dengan gaya. Belanja lebih nyaman dengan produk original, informasi jelas, dan pengiriman cepat.</p>
+							<div class="flex flex-wrap gap-2 pt-1 text-[11px] font-semibold text-white/75">
+								<span class="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">Produk terkurasi</span>
+								<span class="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">100% original</span>
+								<span class="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">Belanja nyaman</span>
+							</div>
+						</div>
+						<div class="space-y-5">
+							<h2 class="text-xs font-bold uppercase tracking-[0.18em] text-[#E6BD68]">Jelajahi Lumière</h2>
+							<nav class="flex flex-col items-start gap-3 text-sm text-white/70" aria-label="Tautan footer">
+								<a class="transition-colors hover:text-[#F1CE84]" href="#produk-list">Katalog produk <span aria-hidden="true">→</span></a>
+								<a class="transition-colors hover:text-[#F1CE84]" href="#flash-sale">Flash sale <span aria-hidden="true">→</span></a>
+								<a class="transition-colors hover:text-[#F1CE84]" href="#newsletter">Voucher dan promo <span aria-hidden="true">→</span></a>
+							</nav>
+						</div>
+						<div class="space-y-5">
+							<h2 class="text-xs font-bold uppercase tracking-[0.18em] text-[#E6BD68]">Mari terhubung</h2>
+							<p class="text-sm leading-relaxed text-white/60">Ada pertanyaan tentang produk atau pesanan? Tim Lumière siap membantu melalui kanal layanan pelanggan di bawah ini.</p>
+							<div class="space-y-3 text-sm">
+								<a class="flex items-center gap-3 text-white/80 transition-colors hover:text-[#F1CE84]" href="tel:+6281200000000"><span class="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[#F1CE84]" aria-hidden="true">☎</span><span><span class="block text-[10px] uppercase tracking-wider text-white/45">Telepon / WhatsApp</span>+62 812-0030-0020</span></a>
+								<a class="flex items-center gap-3 text-white/80 transition-colors hover:text-[#F1CE84]" href="mailto:hello@lumiere.com"><span class="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[#F1CE84]" aria-hidden="true">@</span><span><span class="block text-[10px] uppercase tracking-wider text-white/45">Email</span>hello@lumiere.com</span></a>
+							</div>
+							<div class="flex flex-wrap gap-2 pt-1">
+								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://instagram.com/lumiere" target="_blank" rel="noreferrer">◎ Instagram <span class="text-white/45">@lumiere </span></a>
+								<a class="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white/80 transition-colors hover:border-[#E6BD68] hover:text-[#F1CE84]" href="https://tiktok.com/@lumiere" target="_blank" rel="noreferrer">♪ TikTok <span class="text-white/45">@lumiere </span></a>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col gap-3 border-t border-white/15 py-5 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+						<span>© 2026 Lumière. Demo toko online.</span>
+						<a class="transition-colors hover:text-[#F1CE84]" href="#root">Kembali ke atas ↑</a>
+					</div>
+				</div>
+			</footer>
 
 				<!-- CART DRAWER MODAL -->
 				${
@@ -927,7 +979,6 @@ function Content(container) {
 				`
 						: ''
 				}
-			</main>
 		`
 
 		attachEvents()
